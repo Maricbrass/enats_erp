@@ -1,0 +1,32 @@
+git login command 
+
+ 1. git config --global user.email "you@example.com".
+ 2. git config --global user.name "Your Name".
+
+
+git push pull command 
+
+1. cd c:
+2. cd xampp/htdocs/file_name
+3. git status
+4. git add file
+5. git commit -m"comment" 
+6. git pull origin master 
+7. git push origin master
+
+
+database source commmand
+
+1. mysql -u root -p
+2. create database db_name
+3. use db_name
+4. source db_name.sql;
+5. show databases;
+
+server details
+protocol : SFTP 
+ssh root@5.161.114.135
+Logic@98200
+root
+Enats@2021
+
