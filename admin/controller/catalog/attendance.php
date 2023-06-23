@@ -2,6 +2,7 @@
 class ControllerCatalogAttendance extends Controller {
 	private $error = array();
 // commited??
+//commited 2nd time
 	public function index() {
 
 		$user_id = $this->session->data['user_id'];
