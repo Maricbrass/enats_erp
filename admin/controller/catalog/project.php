@@ -545,8 +545,8 @@ class ControllerCatalogProject extends Controller {
 	            'contact_person'		    => $project['contact_person'],
 	            'phone'					    => $project['phone'],
 	            'email'						=> $project['email'],
-	            'project_start_date'		=> $project['project_start_date'],
-	            'project_end_date'			=> $project['project_end_date'],
+	            'project_start_date'		=> date("d-m-Y",strtotime($project['project_end_date'])),
+	            'project_end_date'			=> date("d-m-Y",strtotime($project['project_end_date'])),
 	             
 	        );
         }
