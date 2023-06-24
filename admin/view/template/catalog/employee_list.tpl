@@ -56,7 +56,8 @@
                   <input type="date" name="todate" value="<?php echo $todate; ?>" id="input-todate" class="form-control" />
                 </div>
              <div class="col-sm-12">
-              <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+              <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button><br><br><br>
+              <button type="button" id="button-clear" class="btn btn-primary pull-right"><i class="fa fa-trash-o"></i> <?php echo $button_clear; ?></button>
             </div>
           </div>
         </div>
@@ -207,5 +208,10 @@ $('input[name=\'filter_email\']').autocomplete({
   }
 });
 --></script>
-
+<script type="text/javascript">
+$('#button-clear').on('click', function() {
+	var url = 'index.php?route=catalog/employee&token=<?php echo $token; ?>';
+  location = url;
+});
+</script>
 <?php echo $footer; ?> 

@@ -247,7 +247,6 @@ class ControllerCatalogEmployee extends Controller {
 			$data['employees'][] = array(
 				'employee_id' => $result['employee_id'],
 				'name'        => $result['name'],
-				'name'        => $result['name'],
 				'numbers'     => $result['numbers'],
 				'doje'        =>date("d-m-Y",strtotime($result['doje'])),
 				'email'       => $result['email'],
@@ -289,6 +288,7 @@ class ControllerCatalogEmployee extends Controller {
 		$data['button_edit'] = $this->language->get('button_edit');
 		$data['button_delete'] = $this->language->get('button_delete');
 		$data['button_filter'] = $this->language->get('button_filter');
+		$data['button_clear'] = $this->language->get('button_clear');
 
 
 		if (isset($this->error['warning'])) {
