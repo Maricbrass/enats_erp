@@ -18,7 +18,8 @@ $_['text_fresher']       = 'Fresher';
 
 
 // Column
-$_['column_name']        = ' Name';
+$_['column_login']       = 'Login';
+$_['column_name']        = 'Name';
 $_['column_address']     = 'Address';
 $_['column_numbers']     = 'Contact';
 $_['column_action']      = 'Action';

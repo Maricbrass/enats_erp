@@ -40,19 +40,25 @@
           <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
+                <label class="control-label" for="input-login"><?php echo $column_login; ?></label>
+                <input type="text" name="filter_login" value="<?php echo $filter_login; ?>" placeholder="<?php echo $column_login; ?>" id="input-login" class="form-control" />
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
                 <label class="control-label" for="input-name"><?php echo $entry_name; ?></label>
                 <input type="text" name="filter_name" value="<?php echo $filter_name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
               </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                  <label class="control-label" for="input-name">Start Date</label>
+                  <label class="control-label" for="input-fromdate">Start Date</label>
                   <input type="date" name="fromdate" value="<?php echo $fromdate; ?>" id="input-fromdate" class="form-control" />
                 </div>
               </div>
               <div class="col-sm-4">
                 <div class="form-group">
-                  <label class="control-label" for="input-name">End Date</label>
+                  <label class="control-label" for="input-todate">End Date</label>
                   <input type="date" name="todate" value="<?php echo $todate; ?>" id="input-todate" class="form-control" />
                 </div>
              <div class="col-sm-12">
@@ -66,35 +72,57 @@
           <div class="table-responsive">
             <table class="table table-bordered table-hover">
               <thead>
-                <tr>
+              <tr>
                   <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
-                  <td class="text-left"><?php if ($sort == 'name') { ?>
-                  <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_name; ?></a>
-                  <?php } else { ?>
-                  <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
-                  <?php } ?></td>
-                  <td class="text-left">Date of birth</td>
-                  <td class="text-left">Date of joining</td>
-                  <td class="text-left"><?php echo $column_email; ?></td>
-                  <td class="text-left"><?php echo $column_numbers; ?></td>
-                  <td class="text-right"><?php echo $column_action; ?></td>
+                  <td class="text-left"><?php if ($sort == 'login') { ?>
+                    <a href="<?php echo $sort_login; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_login; ?></a>
+                    <?php } else { ?>
+                    <a href="<?php echo $sort_login; ?>"><?php echo $column_login; ?></a>
+                    <?php } ?></td>
+                  <td class="text-left"><?php if ($sort == 'name') {?>
+                    <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_name; ?></a>
+                    <?php } else { ?>
+                    <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
+                    <?php } ?></td>
+                  <td class="text-left"><?php if ($sort == 'email') { ?>
+                    <a href="<?php echo $sort_email; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_email; ?></a>
+                    <?php } else { ?>
+                    <a href="<?php echo $sort_email; ?>"><?php echo $column_email; ?></a>
+                    <?php } ?></td>
+                  <td class="text-left"><?php if ($sort == 'contact') { ?>
+                    <a href="<?php echo $sort_numbers; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_numbers; ?></a>
+                    <?php } else { ?>
+                    <a href="<?php echo $sort_numbers; ?>"><?php echo $column_numbers; ?></a>
+                    <?php } ?></td>
+                    <td class="text-left">Date of joining</td>
+                  <td class="text-left"><?php if ($sort == 'address') { ?>
+                    <a href="<?php echo $sort_address; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_address; ?></a>
+                    <?php } else { ?>
+                    <a href="<?php echo $sort_address; ?>"><?php echo $column_address; ?></a>
+                    <?php } ?></td>
+                  
+                  <td class="text-left"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
             <tbody>
               <?php if ($employees) { ?>
               <?php foreach ($employees as $employee) {
               //echo "<pre>";print_r($employee);exit; ?>
+              
+
               <tr>
               <td class="text-center"><?php if (in_array($employee['employee_id'], $selected)) { ?>
               <input type="checkbox" name="selected[]" value="<?php echo $employee['employee_id']; ?>" checked="checked" />
               <?php } else { ?>
               <input type="checkbox" name="selected[]" value="<?php echo $employee['employee_id']; ?>" />
               <?php } ?></td>
+              <td class="text-left"><?php echo $employee['login']; ?></td>
               <td class="text-left"><?php echo $employee['name']; ?><?php if (date('m-d', strtotime($employee['dob'])) == date('m-d')) {echo "<span> 🎂</span>";}?></td>
-              <td class="text-left"><?php echo $employee['dob']; ?></td>
-              <td class="text-left"><?php echo $employee['doje']; ?></td>
+              <!-- <td class="text-left"><?php echo $employee['dob']; ?></td> -->
               <td class="text-left"><?php echo $employee['email']; ?></td>
               <td class="text-left"><?php echo $employee['numbers']; ?></td>
+              <td class="text-left"><?php echo $employee['doje']; ?></td>
+              <td class="text-left"><?php echo $employee['address']; ?></td>
               <td class="text-right"><a href="<?php echo $employee['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
               </tr>
               <?php } ?>
@@ -121,27 +149,55 @@ $('#button-filter').on('click', function() {
 
   var url = 'index.php?route=catalog/employee&token=<?php echo $token; ?>';
 
+  var filter_login = $('input[name=\'filter_login\']').val();
+
+  if (filter_login) {
+    url += '&filter_login=' + encodeURIComponent(filter_login);
+  }
   var filter_name = $('input[name=\'filter_name\']').val();
 
   if (filter_name) {
     url += '&filter_name=' + encodeURIComponent(filter_name);
   }
 
-  var filter_numbers = $('input[name=\'filter_numbers\']').val();
+  var fromdate = $('input[name=\'fromdate\']').val();
 
-  if (filter_numbers) {
-    url += '&filter_numbers=' + encodeURIComponent(filter_numbers);
-  }
+    if (fromdate) {
+      url += '&fromdate=' + encodeURIComponent(fromdate);
+    }
 
-  var filter_email = $('input[name=\'filter_email\']').val();
+    var todate = $('input[name=\'todate\']').val();
 
-  if (filter_email) {
-    url += '&filter_email=' + encodeURIComponent(filter_email);
-  }
+    if (todate) {
+      url += '&todate=' + encodeURIComponent(todate);
+    }
+
+ //return filter_sDate;
 
   location = url;
 });  
 </script>
+<script type="text/javascript"><!--
+$('input[name=\'filter_login\']').autocomplete({
+  'source': function(request, response) {
+    $.ajax({
+      url: 'index.php?route=catalog/employee/autocomplete&token=<?php echo $token; ?>&filter_login=' +  encodeURIComponent(request),
+      dataType: 'json',
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item['login'],
+            value: item['login']
+          }
+        }));
+      }
+    });
+  },
+  'select': function(item) {
+    $('input[name=\'filter_login\']').val(item['label']);
+  }
+});
+--></script>
 <script type="text/javascript"><!--
 $('input[name=\'filter_name\']').autocomplete({
   'source': function(request, response) {
@@ -152,7 +208,7 @@ $('input[name=\'filter_name\']').autocomplete({
         response($.map(json, function(item) {
           return {
             label: item['name'],
-            value: item['employee_id']
+            value: item['name']
           }
         }));
       }

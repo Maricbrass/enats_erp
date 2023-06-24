@@ -14,6 +14,43 @@ class ControllerCatalogEmployee extends Controller {
 
 		// echo "<pre>";print_r($user_group_id);exit;
 
+		// $url ="";
+		// 	if (isset($this->request->get['fromdate'])) {
+	    //         $fromdate = $this->request->get['fromdate'];
+	    //         $url .= '&fromdate='.$fromdate;
+	    //     } else {
+	    //         $fromdate = '';
+	    //     }
+
+	    //     if (isset($this->request->get['todate'])) {
+	    //         $todate = $this->request->get['todate'];
+	    //         $url .= '&todate='.$todate;
+	    //     } else {
+	    //         $todate = '';
+	    //     }
+		// 	if(!empty($fromdate && $todate)){
+		// 		$data['attendances_header'] = $this->db->query("SELECT * FROM oc_employee WHERE doje >= '$fromdate' AND dole <= '$todate' GROUP BY doje")->rows;
+		// 		$data['attendances_body'] = $this->db->query("SELECT * FROM oc_employee WHERE doje >= '$fromdate' AND dole <= '$todate' ORDER BY doje")->rows;
+
+		// 		//$data['username'] = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date >= '$fromdate' AND date <= '$todate' GROUP BY user_id")->rows;
+		// 	}elseif(!empty($fromdate)){
+	    //     	$data['attendances_header'] = $this->db->query("SELECT * FROM oc_employee WHERE doje = '$fromdate' GROUP BY doje")->rows;
+		// 		$data['attendances_body'] = $this->db->query("SELECT * FROM oc_employee WHERE doje = '$fromdate' ORDER BY  doje")->rows;
+
+		// 	//	$data['username'] = $this->db->query("SELECT user_id, name FROM oc_employee WHERE date = '$fromdate' GROUP BY user_id")->rows;
+		// 	}elseif(!empty($todate)){
+		// 		$data['attendances_header'] = $this->db->query("SELECT date FROM oc_employee WHERE date = '$todate' GROUP BY date")->rows;
+		// 		$data['attendances_body'] = $this->db->query("SELECT * FROM oc_employee WHERE date = '$todate' ORDER BY user_id, date, time")->rows;
+
+		// 	//	$data['username'] = $this->db->query("SELECT user_id, name FROM oc_employee WHERE date = '$todate' GROUP BY user_id")->rows;
+		// 	}else{
+		// 		// $data['attendances_header'] = $this->db->query("SELECT date FROM oc_employee GROUP BY date ORDER BY date DESC LIMIT 30")->rows;
+		// 		// $data['attendances_body'] = $this->db->query("SELECT * FROM oc_employee ORDER BY user_id, date, time")->rows;
+
+		// 		// $data['username'] = $this->db->query("SELECT user_id, name FROM oc_employee GROUP BY user_id")->rows;
+		// 	}
+
+
 		$this->load->language('catalog/employee');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -67,7 +104,7 @@ class ControllerCatalogEmployee extends Controller {
 
 		$this->load->model('catalog/employee');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm($this->request->get['employee_id'])) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST')    ) {  //&& $this->validateForm($this->request->get['employee_id'])
 			$this->model_catalog_employee->editEmployee($this->request->get['employee_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -128,7 +165,7 @@ class ControllerCatalogEmployee extends Controller {
 	}
 
 	protected function getList() {
-
+		$url = '';
 		$user_id = $this->session->data['user_id'];
 		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
 		foreach ($user_data as $user) {
@@ -136,7 +173,11 @@ class ControllerCatalogEmployee extends Controller {
 			$data['user_group_id'] = $user['user_group_id'];
 			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
 		}
-
+		if (isset($this->request->get['filter_login'])) {
+			$filter_login = $this->request->get['filter_login'];
+		} else {
+			$filter_login = null;
+		}
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
 		} else {
@@ -153,6 +194,20 @@ class ControllerCatalogEmployee extends Controller {
 			$filter_email = $this->request->get['filter_email'];
 		} else {
 			$filter_email = null;
+		}
+
+		if (isset($this->request->get['fromdate'])) {
+			$fromdate = $this->request->get['fromdate'];
+			$url .= '&fromdate='.$fromdate;
+		} else {
+			$fromdate = '';
+		}
+
+		if (isset($this->request->get['todate'])) {
+			$todate = $this->request->get['todate'];
+			$url .= '&todate='.$todate;
+		} else {
+			$todate = '';
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -173,7 +228,7 @@ class ControllerCatalogEmployee extends Controller {
 			$page = 1;
 		}
 
-		$url = '';
+		$url ="";
 
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
@@ -229,9 +284,12 @@ class ControllerCatalogEmployee extends Controller {
 		$data['employees'] = array();
 
 		$filter_data = array(
+			'filter_login'	  => $filter_login,
 			'filter_name'	  => $filter_name,
-			'filter_numbers'	  => $filter_numbers,
+			'filter_numbers'  => $filter_numbers,
 			'filter_email'	  => $filter_email,
+			'fromdate'  => $fromdate,    
+			'todate'  => $todate,
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -246,9 +304,10 @@ class ControllerCatalogEmployee extends Controller {
 		foreach ($results as $result) {
 			$data['employees'][] = array(
 				'employee_id' => $result['employee_id'],
+				'login'       => $result['login'],
 				'name'        => $result['name'],
 				'numbers'     => $result['numbers'],
-				'doje'        =>date("d-m-Y",strtotime($result['doje'])),
+				'doje'        => date("d-m-Y",strtotime($result['doje'])),
 				'email'       => $result['email'],
 				'address'     => $result['address'],
 				'dob'         => date("d-m-Y",strtotime($result['dob'])),
@@ -257,9 +316,11 @@ class ControllerCatalogEmployee extends Controller {
 		}
 
 		$filter_data = array(
+			'filter_login'	  => $filter_login,
 			'filter_name'	  => $filter_name,
 			'filter_numbers'  => $filter_numbers,
 			'filter_email'	  => $filter_email,
+			//'fromdate'        => $fromdate,
 			'sort'            => $sort,
 			'order'           => $order,
 			'start'           => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -273,6 +334,7 @@ class ControllerCatalogEmployee extends Controller {
 		$data['text_no_results'] = $this->language->get('text_no_results');
 		$data['text_confirm'] = $this->language->get('text_confirm');
 
+		$data['column_login'] = $this->language->get('column_login');
 		$data['column_name'] = $this->language->get('column_name');
 		$data['column_action'] = $this->language->get('column_action');
 		$data['column_address'] = $this->language->get('column_address');
@@ -323,7 +385,9 @@ class ControllerCatalogEmployee extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
+		$data['sort_login'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . '&sort=login' . $url, true);
 		$data['sort_name'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . '&sort=name' . $url, true);
+		$data['sort_dob'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . '&sort=dob' . $url, true);
 		$data['sort_sort_order'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . '&sort=sort_order' . $url, true);
 
 		$url = '';
@@ -336,9 +400,11 @@ class ControllerCatalogEmployee extends Controller {
 			$url .= '&order=' . $this->request->get['order'];
 		}
 
+	    $data['filter_login'] = $filter_login;
 	    $data['filter_name'] = $filter_name;
 	    $data['filter_numbers'] = $filter_numbers;
 	    $data['filter_email'] = $filter_email;
+	//	$data['fromdate'] = $fromdate;
 
 		$pagination = new Pagination();
 		$pagination->total = $employee_total;
@@ -716,25 +782,25 @@ class ControllerCatalogEmployee extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if ((utf8_strlen($this->request->post['name']) < 2) || (utf8_strlen($this->request->post['name']) > 64)) {
-			$this->error['name'] = $this->language->get('error_name');
-		}
+		// if ((utf8_strlen($this->request->post['name']) < 2) || (utf8_strlen($this->request->post['name']) > 64)) {
+		// 	$this->error['name'] = $this->language->get('error_name');
+		// }
 
-		if (!isset($this->request->get['employee_id'])){
-			$user_id = $this->request->post['user_id'];
-			$validate_exits = $this->db->query("SELECT user_id FROM oc_employee WHERE user_id = '$user_id'")->row;
-			if ($validate_exits['user_id'] == $user_id) {
-				$this->error['warning'] = $this->language->get('error_permission');
-			}
-		}
+		// if (!isset($this->request->get['employee_id'])){
+		// 	$user_id = $this->request->post['user_id'];
+		// 	$validate_exits = $this->db->query("SELECT user_id FROM oc_employee WHERE user_id = '$user_id'")->row;
+		// 	if ($validate_exits['user_id'] == $user_id) {
+		// 		$this->error['warning'] = $this->language->get('error_permission');
+		// 	}
+		// }
 
-		if(!empty($this->request->get['employee_id'])) {
-			$employee_id = $this->request->get['employee_id'];
-			$validate_user = $this->db->query("SELECT user_id FROM oc_employee WHERE employee_id = '$employee_id'")->row;
-			if ($validate_user['user_id'] != $this->session->data['user_id'] && $this->session->data['user_id'] != 1) {
-				$this->error['warning'] = $this->language->get('error_permission');
-			}
-		}
+		// if(!empty($this->request->get['employee_id'])) {
+		// 	$employee_id = $this->request->get['employee_id'];
+		// 	$validate_user = $this->db->query("SELECT user_id FROM oc_employee WHERE employee_id = '$employee_id'")->row;
+		// 	if ($validate_user['user_id'] != $this->session->data['user_id'] && $this->session->data['user_id'] != 1) {
+		// 		$this->error['warning'] = $this->language->get('error_permission');
+		// 	}
+		// }
 
 		return !$this->error;
 	}
@@ -761,35 +827,76 @@ class ControllerCatalogEmployee extends Controller {
 	    return !$this->error;
 	}
 
+	// public function autocomplete0() {
+	// 	$json = array();
+
+	// 	if (isset($this->request->get['filter_login'])) {
+	// 		$this->load->model('catalog/employee');
+
+	// 		$filter_data = array(
+	// 			'filter_login' => $this->request->get['filter_login'],
+	// 			'start'       => 0,
+	// 			'limit'       => 5
+	// 		);
+
+	// 		$results = $this->model_catalog_employee->autocompleteemp($filter_data);
+	// 		foreach ($results as $result) {
+	// 			$json[] = array(
+	// 				'employee_id' => $result['employee_id'],
+	// 				'login'            => $result['login']
+	// 			);
+	// 		}
+	// 	}
+
+	// 	$sort_order = array();
+
+	// 	foreach ($json as $key => $value) {
+	// 		// echo "<pre>";print_r($value);exit;
+	// 		$sort_order[$key] = $value['login'];
+	// 	}
+
+	// 	array_multisort($sort_order, SORT_ASC, $json);
+
+	// 	$this->response->addHeader('Content-Type: application/json');
+	// 	$this->response->setOutput(json_encode($json));
+	// }
 	public function autocomplete() {
 		$json = array();
 
-		if (isset($this->request->get['filter_name'])) {
+		if (isset($this->request->get['filter_name'])  || isset($this->request->get['login']) ) {
 			$this->load->model('catalog/employee');
+
+			if (isset($this->request->get['login'])) {
+				$login = $this->request->get['login'];
+			} else {
+				$login = '';
+			}
 
 			$filter_data = array(
 				'filter_name' => $this->request->get['filter_name'],
+		    	'filter_login' => $login,
 				'start'       => 0,
 				'limit'       => 5
 			);
 
-			$results = $this->model_catalog_employee->autocompleteemp($filter_data);
+			$results = $this->model_catalog_employee->getEmployees($filter_data);
 			foreach ($results as $result) {
 				$json[] = array(
-					'employee_id' => $result['employee_id'],
-					'name'            => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
+					'name'            => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+					'login'            => strip_tags(html_entity_decode($result['login'], ENT_QUOTES, 'UTF-8'))
 				);
 			}
 		}
 
-		$sort_order = array();
+		// $sort_order = array();
 
-		foreach ($json as $key => $value) {
-			// echo "<pre>";print_r($value);exit;
-			$sort_order[$key] = $value['name'];
-		}
+		// foreach ($json as $key => $value) {
+		// 	// echo "<pre>";print_r($value);exit;
+		// 	$sort_order[$key] = $value['name'];
+		// 	$sort_order[$key] = $value['login'];
+		// }
 
-		array_multisort($sort_order, SORT_ASC, $json);
+		// array_multisort($sort_order, SORT_ASC, $json);
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
