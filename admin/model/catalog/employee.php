@@ -15,24 +15,38 @@ class ModelCatalogEmployee extends Model {
 	    $file_namess = 'passbook/' . basename($_FILES["bank"]["name"]);
 		
 		// echo "<pre>";print_r($data);exit;
-		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "',
+	
+		$sql= ("INSERT INTO " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "',
 		user_id = '" . $this->db->escape($data['user_id']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',dole = '" . $this->db->escape($data['dole']) ."', pan = '" . $this->db->escape($data['pan_no']) . "',pan_path = '" . $this->db->escape($file_name) . "',adhaar_path = '" . $this->db->escape($file_names) . "',adhaar = '" . $this->db->escape($data['adhaar_no']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',bank_path = '" . $this->db->escape($file_namess) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "'");
-
-
+	
 		$employee_id = $this->db->getLastId();
 
-		if (isset($data['employee_store'])) {
-			foreach ($data['employee_store'] as $store_id) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "employee SET employee_id = '" . (int)$employee_id . "', store_id = '" . (int)$store_id . "'");
+		if(isset($data['doje']) && isset($data['dole'])){
+			$doje = $data['doje'];
+			$dole = $data['dole'];
+			if($doje > $dole){
+				//$this->session->data['error'] = "Date of Joining must be less than Date of Leaving";
+				$this->error['dole'] = $this->language->get('error_dole');
 			}
+		} else {
+			$this->db->query($sql);;
 		}
 
-		if (isset($data['keyword'])) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'employee_id=" . (int)$employee_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
-		}
+		
 
-		$this->cache->delete('employee');
+		// if (isset($data['employee_store'])) {
+		// 	foreach ($data['employee_store'] as $store_id) {
+		// 		$this->db->query("INSERT INTO " . DB_PREFIX . "employee SET employee_id = '" . (int)$employee_id . "', store_id = '" . (int)$store_id . "'");
+		// 	}
+		// }
+
+		// if (isset($data['keyword'])) {
+		// 	$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'employee_id=" . (int)$employee_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
+		// }
+
+		// $this->cache->delete('employee');
+
+		
 
 		return $employee_id;
 	}
@@ -162,7 +176,7 @@ class ModelCatalogEmployee extends Model {
 			$sql = "SELECT * FROM " . DB_PREFIX . "employee";
 			$sql .= " WHERE user_id LIKE '" . $user_id . "%'";
 		} else{
-			$sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE `dole` >= '".$current_date." ' or dole = 0000-00-00";
+			$sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE 1=1";  	//`dole` >= '".$current_date." ' or dole = 0000-00-00
 			// $sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE `dole` = TRUE ";
 		}
 

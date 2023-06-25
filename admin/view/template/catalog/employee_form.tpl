@@ -105,6 +105,7 @@
           <?php } ?>
         </div>
         </div> 
+
         <div class="form-group ">
         <label class="col-sm-2 control-label" for="input-date"> Date of Leaving ENATTS</label>
         <div class="col-sm-10">
@@ -114,6 +115,7 @@
           <?php } ?>
         </div>
         </div>
+
       <div class="form-group">
         <label class="col-sm-2 control-label" for="input-pan"><?php echo $entry_pan; ?><br><br>PAN Number</label>
         <div class="col-sm-3">

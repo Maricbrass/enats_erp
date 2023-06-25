@@ -95,6 +95,7 @@
                     <a href="<?php echo $sort_numbers; ?>"><?php echo $column_numbers; ?></a>
                     <?php } ?></td>
                     <td class="text-left">Date of joining</td>
+                    <td class="text-left">Date of leaving</td>
                   <td class="text-left"><?php if ($sort == 'address') { ?>
                     <a href="<?php echo $sort_address; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_address; ?></a>
                     <?php } else { ?>
@@ -122,6 +123,7 @@
               <td class="text-left"><?php echo $employee['email']; ?></td>
               <td class="text-left"><?php echo $employee['numbers']; ?></td>
               <td class="text-left"><?php echo $employee['doje']; ?></td>
+              <td class="text-left"><?php echo $employee['dole']; ?></td>
               <td class="text-left"><?php echo $employee['address']; ?></td>
               <td class="text-right"><a href="<?php echo $employee['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
               </tr>

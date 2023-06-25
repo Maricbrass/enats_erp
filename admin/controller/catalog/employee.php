@@ -92,6 +92,9 @@ class ControllerCatalogEmployee extends Controller {
 
 			$this->response->redirect($this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . $url, true));
 		}
+		else{
+			$this->error['dole'] = $this->language->get('error_dole');
+		}
 
 		$this->getForm();
 	}
@@ -242,6 +245,10 @@ class ControllerCatalogEmployee extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
+		if (isset($this->request->get['filter_login'])) {
+			$url .= '&filter_login=' . urlencode(html_entity_decode($this->request->get['filter_login'], ENT_QUOTES, 'UTF-8'));
+		}
+
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -308,6 +315,7 @@ class ControllerCatalogEmployee extends Controller {
 				'name'        => $result['name'],
 				'numbers'     => $result['numbers'],
 				'doje'        => date("d-m-Y",strtotime($result['doje'])),
+				'dole'        => date("d-m-Y",strtotime($result['dole'])),
 				'email'       => $result['email'],
 				'address'     => $result['address'],
 				'dob'         => date("d-m-Y",strtotime($result['dob'])),
@@ -367,6 +375,7 @@ class ControllerCatalogEmployee extends Controller {
 			$data['success'] = '';
 		}
 
+
 		if (isset($this->request->post['selected'])) {
 			$data['selected'] = (array)$this->request->post['selected'];
 		} else {
@@ -387,6 +396,8 @@ class ControllerCatalogEmployee extends Controller {
 
 		$data['sort_login'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . '&sort=login' . $url, true);
 		$data['sort_name'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . '&sort=name' . $url, true);
+		$data['sort_email'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . '&sort=email' . $url, true);
+		$data['sort_address'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . '&sort=address' . $url, true);
 		$data['sort_dob'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . '&sort=dob' . $url, true);
 		$data['sort_sort_order'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . '&sort=sort_order' . $url, true);
 
@@ -782,9 +793,12 @@ class ControllerCatalogEmployee extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		// if ((utf8_strlen($this->request->post['name']) < 2) || (utf8_strlen($this->request->post['name']) > 64)) {
-		// 	$this->error['name'] = $this->language->get('error_name');
-		// }
+		if ((utf8_strlen($this->request->post['name']) < 2) || (utf8_strlen($this->request->post['name']) > 64)) {
+			$this->error['name'] = $this->language->get('error_name');
+		}
+		if ((utf8_strlen($this->request->post['dole'])) < (utf8_strlen($this->request->post['doje']))) {
+			$this->error['dole'] = $this->language->get('error_dole');
+		}
 
 		// if (!isset($this->request->get['employee_id'])){
 		// 	$user_id = $this->request->post['user_id'];
@@ -794,13 +808,13 @@ class ControllerCatalogEmployee extends Controller {
 		// 	}
 		// }
 
-		// if(!empty($this->request->get['employee_id'])) {
-		// 	$employee_id = $this->request->get['employee_id'];
-		// 	$validate_user = $this->db->query("SELECT user_id FROM oc_employee WHERE employee_id = '$employee_id'")->row;
-		// 	if ($validate_user['user_id'] != $this->session->data['user_id'] && $this->session->data['user_id'] != 1) {
-		// 		$this->error['warning'] = $this->language->get('error_permission');
-		// 	}
-		// }
+		if(!empty($this->request->get['employee_id'])) {
+			$employee_id = $this->request->get['employee_id'];
+			$validate_user = $this->db->query("SELECT user_id FROM oc_employee WHERE employee_id = '$employee_id'")->row;
+			if ($validate_user['user_id'] != $this->session->data['user_id'] && $this->session->data['user_id'] != 1) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
+		}
 
 		return !$this->error;
 	}
@@ -863,7 +877,7 @@ class ControllerCatalogEmployee extends Controller {
 	public function autocomplete() {
 		$json = array();
 
-		if (isset($this->request->get['filter_name'])  || isset($this->request->get['login']) ) {
+		if (isset($this->request->get['filter_name'])  || isset($this->request->get['filter_login']) ) {
 			$this->load->model('catalog/employee');
 
 			if (isset($this->request->get['login'])) {
