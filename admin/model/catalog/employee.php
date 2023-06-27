@@ -176,7 +176,7 @@ class ModelCatalogEmployee extends Model {
 			$sql = "SELECT * FROM " . DB_PREFIX . "employee";
 			$sql .= " WHERE user_id LIKE '" . $user_id . "%'";
 		} else{
-			$sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE 1=1";  	//`dole` >= '".$current_date." ' or dole = 0000-00-00
+			$sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE `dole` >= '".$current_date." ' or dole = 0000-00-00";  	
 			// $sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE `dole` = TRUE ";
 		}
 

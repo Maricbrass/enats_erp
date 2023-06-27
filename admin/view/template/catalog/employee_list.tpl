@@ -60,12 +60,13 @@
                 <div class="form-group">
                   <label class="control-label" for="input-todate">End Date</label>
                   <input type="date" name="todate" value="<?php echo $todate; ?>" id="input-todate" class="form-control" />
+                 </div>
                 </div>
-             <div class="col-sm-12">
+                <div class="col-sm-8">
               <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button><br><br><br>
               <button type="button" id="button-clear" class="btn btn-primary pull-right"><i class="fa fa-trash-o"></i> <?php echo $button_clear; ?></button>
             </div>
-          </div>
+        
         </div>
       <?php }?>
         <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-employee">
@@ -183,7 +184,7 @@ $('#button-filter').on('click', function() {
 $('input[name=\'filter_login\']').autocomplete({
   'source': function(request, response) {
     $.ajax({
-      url: 'index.php?route=catalog/employee/autocomplete&token=<?php echo $token; ?>&filter_login=' +  encodeURIComponent(request),
+      url: 'index.php?route=catalog/employee/autocomplete0&token=<?php echo $token; ?>&filter_login=' +  encodeURIComponent(request),
       dataType: 'json',
       success: function(json) {
         response($.map(json, function(item) {

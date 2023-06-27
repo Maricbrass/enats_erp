@@ -841,54 +841,54 @@ class ControllerCatalogEmployee extends Controller {
 	    return !$this->error;
 	}
 
-	// public function autocomplete0() {
-	// 	$json = array();
+	public function autocomplete0() {
+		$json = array();
 
-	// 	if (isset($this->request->get['filter_login'])) {
-	// 		$this->load->model('catalog/employee');
+		if (isset($this->request->get['filter_login'])) {
+			$this->load->model('catalog/employee');
 
-	// 		$filter_data = array(
-	// 			'filter_login' => $this->request->get['filter_login'],
-	// 			'start'       => 0,
-	// 			'limit'       => 5
-	// 		);
+			$filter_data = array(
+				'filter_login' => $this->request->get['filter_login'],
+				'start'       => 0,
+				'limit'       => 5
+			);
 
-	// 		$results = $this->model_catalog_employee->autocompleteemp($filter_data);
-	// 		foreach ($results as $result) {
-	// 			$json[] = array(
-	// 				'employee_id' => $result['employee_id'],
-	// 				'login'            => $result['login']
-	// 			);
-	// 		}
-	// 	}
+			$results = $this->model_catalog_employee->autocompleteemp($filter_data);
+			foreach ($results as $result) {
+				$json[] = array(
+					'employee_id' => $result['employee_id'],
+					'login'            => $result['login']
+				);
+			}
+		}
 
-	// 	$sort_order = array();
+		$sort_order = array();
 
-	// 	foreach ($json as $key => $value) {
-	// 		// echo "<pre>";print_r($value);exit;
-	// 		$sort_order[$key] = $value['login'];
-	// 	}
+		foreach ($json as $key => $value) {
+			// echo "<pre>";print_r($value);exit;
+			$sort_order[$key] = $value['login'];
+		}
 
-	// 	array_multisort($sort_order, SORT_ASC, $json);
+		array_multisort($sort_order, SORT_ASC, $json);
 
-	// 	$this->response->addHeader('Content-Type: application/json');
-	// 	$this->response->setOutput(json_encode($json));
-	// }
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
 	public function autocomplete() {
 		$json = array();
 
-		if (isset($this->request->get['filter_name'])  || isset($this->request->get['filter_login']) ) {
+		if (isset($this->request->get['filter_name'])) {
 			$this->load->model('catalog/employee');
 
-			if (isset($this->request->get['login'])) {
-				$login = $this->request->get['login'];
-			} else {
-				$login = '';
-			}
+			// if (isset($this->request->get['login'])) {
+			// 	$login = $this->request->get['login'];
+			// } else {
+			// 	$login = '';
+			// }
 
 			$filter_data = array(
 				'filter_name' => $this->request->get['filter_name'],
-		    	'filter_login' => $login,
+		    	//'filter_login' => $login,
 				'start'       => 0,
 				'limit'       => 5
 			);
@@ -897,7 +897,7 @@ class ControllerCatalogEmployee extends Controller {
 			foreach ($results as $result) {
 				$json[] = array(
 					'name'            => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
-					'login'            => strip_tags(html_entity_decode($result['login'], ENT_QUOTES, 'UTF-8'))
+					//'login'            => strip_tags(html_entity_decode($result['login'], ENT_QUOTES, 'UTF-8'))
 				);
 			}
 		}
