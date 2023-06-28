@@ -26,6 +26,23 @@ class ModelCatalogAttendance extends Model {
 
 		$this->cache->delete('attendance');
 	}
+	public function lateattendance($attendance_id, $data) {
+
+		$sql = "SELECT * FROM " . DB_PREFIX . "attendance_record WHERE 1=1";
+
+		// if (!empty($data['filter_name'])) {
+		// 	$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+		// }
+
+		if(!empty($data['start_time']) && !empty($data['end_time'])){
+			$sql .= " AND office_in_time >= '" . $this->db->escape($data['start_time']) . "' AND office_in_time <= '" . $this->db->escape($data['end_time']) . "'";
+		}elseif(!empty($data['start_time'])) {
+			$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['start_time']) . "%'";
+		}elseif(!empty($data['end_time'])) {
+			$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['end_time']) . "%'";
+		}
+
+	}
 
 	public function deleteattendance($attendance_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "attendance_record WHERE attendance_id = '" . (int)$attendance_id . "'");

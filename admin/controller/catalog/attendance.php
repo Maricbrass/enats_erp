@@ -243,6 +243,8 @@ class ControllerCatalogAttendance extends Controller {
 		$data['button_filter'] = $this->language->get('button_filter');
 		$data['button_edit'] = $this->language->get('button_edit');
 		$data['button_delete'] = $this->language->get('button_delete');
+		$data['button_clear'] = $this->language->get('button_clear');
+
 
 		$data['token'] = $this->session->data['token'];
 		

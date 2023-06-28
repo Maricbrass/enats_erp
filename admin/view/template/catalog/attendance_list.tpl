@@ -50,9 +50,11 @@
                  <input type="time" name="end_time" value="<?php echo $end_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
                </div>
              </div>
-             <div class="col-sm-1" style="padding-top:22px;">
-               <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
-             </div>
+             <div class="col-sm-4" style="padding-top:22px;padding-left:305px;">
+               <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button><br><br>
+              <button type="button" id="button-clear" class="btn btn-primary pull-right"><i class="fa fa-trash-o"></i> <?php echo $button_clear; ?></button>
+               
+              </div>
            </div>
          </div>
          <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-attendance">
@@ -154,4 +156,10 @@
      }
    });
  </script>
+ <script type="text/javascript">
+$('#button-clear').on('click', function() {
+	var url = 'index.php?route=catalog/attendance&token=<?php echo $token; ?>';
+  location = url;
+});
+</script>
  <?php echo $footer; ?>

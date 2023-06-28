@@ -50,19 +50,19 @@
                 <input type="text" name="filter_name" value="<?php echo $filter_name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
               </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4"style="width:200px">
                 <div class="form-group">
                   <label class="control-label" for="input-fromdate">Start Date</label>
                   <input type="date" name="fromdate" value="<?php echo $fromdate; ?>" id="input-fromdate" class="form-control" />
                 </div>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-4"style="width:200px">
                 <div class="form-group">
                   <label class="control-label" for="input-todate">End Date</label>
                   <input type="date" name="todate" value="<?php echo $todate; ?>" id="input-todate" class="form-control" />
                  </div>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-13">
               <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button><br><br><br>
               <button type="button" id="button-clear" class="btn btn-primary pull-right"><i class="fa fa-trash-o"></i> <?php echo $button_clear; ?></button>
             </div>
