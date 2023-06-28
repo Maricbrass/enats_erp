@@ -82,6 +82,7 @@ class ModelCatalogEmployee extends Model {
 		}
 
 		$this->db->query("UPDATE " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "',user_id = '" . $this->db->escape($data['user_id']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',dole = '" . $this->db->escape($data['dole']) ."',pan = '" . $this->db->escape($data['pan_no']) . "',adhaar = '" . $this->db->escape($data['adhaar_no']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',pan_path = '" . $pan . "',adhaar_path = '" . $adhaar . "',bank_path = '" . $bank . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "' WHERE employee_id = '" . (int)$employee_id . "'");
+		//$this->db->query("UPDATE " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "',user_id = '" . $this->db->escape($data['user_id']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',doje = '" . $this->db->escape($data['doje']) ."',pan = '" . $this->db->escape($data['pan_no']) . "',adhaar = '" . $this->db->escape($data['adhaar_no']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',pan_path = '" . $pan . "',adhaar_path = '" . $adhaar . "',bank_path = '" . $bank . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "' WHERE employee_id = '" . (int)$employee_id . "'");
 
 		$this->cache->delete('employee');
 	}
@@ -124,6 +125,7 @@ class ModelCatalogEmployee extends Model {
 			$sql .= " AND numbers LIKE '" . $this->db->escape($data['filter_numbers']) . "%'";
 		}
 
+		$sql .= " GROUP BY numbers";
 		$sql .= " GROUP BY numbers";
 		$query = $this->db->query($sql);
 		// echo "<pre>";print_r($query);exit;
@@ -176,7 +178,8 @@ class ModelCatalogEmployee extends Model {
 			$sql = "SELECT * FROM " . DB_PREFIX . "employee";
 			$sql .= " WHERE user_id LIKE '" . $user_id . "%'";
 		} else{
-			$sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE `dole` >= '".$current_date." ' or dole = 0000-00-00";  	
+			$sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE 1=1 ";
+			// `dole` >= '".$current_date." ' or dole = 0000-00-00";
 			// $sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE `dole` = TRUE ";
 		}
 
@@ -198,17 +201,34 @@ class ModelCatalogEmployee extends Model {
 			$sql .= " AND email LIKE '" . $this->db->escape($data['filter_email']) . "%'";
 		}
 
+		// if (!empty($data['fromdate']) && !empty($data['todate'])) {
+		// 	$from_date = date('Y-m-d H:i:s', strtotime($data['fromdate']));
+		// 	$to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
+		// 	$sql .= " AND DATE(doje) >= '" . $this->db->escape($from_date) . "' AND DATE(dole) <= '" . $this->db->escape($to_date) . "'";
+		//   }elseif(!empty($data['fromdate'])){
+		// 	$from_date = date('Y-m-d', strtotime($data['fromdate']));
+		// 	$sql .= " AND DATE(doje) >=  '" . $this->db->escape($from_date) . "'";
+		// 	// echo "<pre>";print_r($sql);exit;
+		//   }elseif(!empty($data['todate'])){
+		// 	$to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
+		// 	$sql .= " AND DATE(dole) <= '" . $this->db->escape($to_date) . "'";
+		//   }
+
+		// $sort_data = array(
+		// 	'name',
+		// 	'sort_order'
+		// );
 		if (!empty($data['fromdate']) && !empty($data['todate'])) {
 			$from_date = date('Y-m-d H:i:s', strtotime($data['fromdate']));
 			$to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
-			$sql .= " AND DATE(doje) >= '" . $this->db->escape($from_date) . "' AND DATE(dole) <= '" . $this->db->escape($to_date) . "'";
+			$sql .= " AND DATE(doje) >= '" . $this->db->escape($from_date) . "' AND DATE(doje) <= '" . $this->db->escape($to_date) . "'";
 		  }elseif(!empty($data['fromdate'])){
 			$from_date = date('Y-m-d', strtotime($data['fromdate']));
 			$sql .= " AND DATE(doje) >=  '" . $this->db->escape($from_date) . "'";
 			// echo "<pre>";print_r($sql);exit;
 		  }elseif(!empty($data['todate'])){
 			$to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
-			$sql .= " AND DATE(dole) <= '" . $this->db->escape($to_date) . "'";
+			$sql .= " AND DATE(doje) <= '" . $this->db->escape($to_date) . "'";
 		  }
 
 		$sort_data = array(
