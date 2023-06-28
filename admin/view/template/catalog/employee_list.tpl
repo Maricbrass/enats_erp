@@ -38,12 +38,12 @@
         <?php if ($user_group_id == 1) {?>
           <div class="well">
           <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label class="control-label" for="input-login"><?php echo $column_login; ?></label>
-                <input type="text" name="filter_login" value="<?php echo $filter_login; ?>" placeholder="<?php echo $column_login; ?>" id="input-login" class="form-control" />
-              </div>
-            </div>
+            <!-- <div class="col-sm-4"> -->
+              <!-- <div class="form-group"> -->
+                <!-- <label class="control-label" for="input-login"><?php echo $column_login; ?></label> -->
+                <!-- <input type="text" name="filter_login" value="<?php echo $filter_login; ?>" placeholder="<?php echo $column_login; ?>" id="input-login" class="form-control" />  -->
+              <!-- </div> -->
+            <!-- </div> -->
             <div class="col-sm-4">
               <div class="form-group">
                 <label class="control-label" for="input-name"><?php echo $entry_name; ?></label>
@@ -62,7 +62,7 @@
                   <input type="date" name="todate" value="<?php echo $todate; ?>" id="input-todate" class="form-control" />
                  </div>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-12">
               <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button><br><br><br>
               <button type="button" id="button-clear" class="btn btn-primary pull-right"><i class="fa fa-trash-o"></i> <?php echo $button_clear; ?></button>
             </div>
