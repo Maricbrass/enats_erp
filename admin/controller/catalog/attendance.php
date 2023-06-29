@@ -141,6 +141,11 @@ class ControllerCatalogAttendance extends Controller {
 		} else {
 			$start_time = null;
 		}
+		// if (isset($this->request->get['status'])) {
+		// 	$start_time = $this->request->get['status'];
+		// } else {
+		// 	$start_time = null;
+		// }
 
 		if (isset($this->request->get['end_time'])) {
 			$end_time = $this->request->get['end_time'];
@@ -201,6 +206,7 @@ class ControllerCatalogAttendance extends Controller {
 			'filter_name'	  => $filter_name,
 			'start_time'  => $start_time,
 			'end_time'  => $end_time,
+			// 'status'	=> $status,
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -219,6 +225,7 @@ class ControllerCatalogAttendance extends Controller {
 				'name'            => $result['name'],
 				'office_in_time'  => $result['office_in_time'],
 				'time'       => $result['time'],
+				'status'	=> $result['status'],
 				'date'       => date("d-m-Y",strtotime($result['date'])),
 				'edit'            => $this->url->link('catalog/attendance/edit', 'token=' . $this->session->data['token'] . '&attendance_id=' . $result['attendance_id'] . $url, true)
 			);
@@ -233,6 +240,7 @@ class ControllerCatalogAttendance extends Controller {
 
 		$data['column_name'] = $this->language->get('column_name');
 		$data['column_office_in_time'] = $this->language->get('column_office_in_time');
+		$data['column_status'] = $this->language->get('column_status');
 		$data['column_date_time'] = $this->language->get('column_date_time');
 		$data['column_action'] = $this->language->get('column_action');
 

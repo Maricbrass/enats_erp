@@ -7,7 +7,7 @@ class ModelCatalogAttendance extends Model {
 		} else {
 			$user_id = $this->session->data['user_id'];
 		}
-
+		
 		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "',date = '" . $this->db->escape($data['date']) . "',time = '" . $this->db->escape($data['time']) . "',user_id = '" . $this->db->escape($user_id) . "', office_in_time = '" . $this->db->escape($data['office_in_time']) . "'");
 
 		$attendance_id = $this->db->getLastId();
@@ -26,23 +26,23 @@ class ModelCatalogAttendance extends Model {
 
 		$this->cache->delete('attendance');
 	}
-	public function lateattendance($attendance_id, $data) {
+	// public function lateattendance($attendance_id, $data) {
 
-		$sql = "SELECT * FROM " . DB_PREFIX . "attendance_record WHERE 1=1";
+	// 	$sql = "SELECT * FROM " . DB_PREFIX . "attendance_record WHERE 1=1";
 
-		// if (!empty($data['filter_name'])) {
-		// 	$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
-		// }
+	// 	// if (!empty($data['filter_name'])) {
+	// 	// 	$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+	// 	// }
 
-		if(!empty($data['start_time']) && !empty($data['end_time'])){
-			$sql .= " AND office_in_time >= '" . $this->db->escape($data['start_time']) . "' AND office_in_time <= '" . $this->db->escape($data['end_time']) . "'";
-		}elseif(!empty($data['start_time'])) {
-			$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['start_time']) . "%'";
-		}elseif(!empty($data['end_time'])) {
-			$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['end_time']) . "%'";
-		}
+	// 	if(!empty($data['start_time']) && !empty($data['end_time'])){
+	// 		$sql .= " AND office_in_time >= '" . $this->db->escape($data['start_time']) . "' AND office_in_time <= '" . $this->db->escape($data['end_time']) . "'";
+	// 	}elseif(!empty($data['start_time'])) {
+	// 		$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['start_time']) . "%'";
+	// 	}elseif(!empty($data['end_time'])) {
+	// 		$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['end_time']) . "%'";
+	// 	}
 
-	}
+	// }
 
 	public function deleteattendance($attendance_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "attendance_record WHERE attendance_id = '" . (int)$attendance_id . "'");
@@ -83,7 +83,8 @@ class ModelCatalogAttendance extends Model {
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
-
+		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET status = 'Late' Where office_in_time >'10:00:00'");
+		
 		if(!empty($data['start_time']) && !empty($data['end_time'])){
 			$sql .= " AND office_in_time >= '" . $this->db->escape($data['start_time']) . "' AND office_in_time <= '" . $this->db->escape($data['end_time']) . "'";
 		}elseif(!empty($data['start_time'])) {
