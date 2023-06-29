@@ -10,6 +10,7 @@ class ModelCatalogAttendance extends Model {
 		
 		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "',date = '" . $this->db->escape($data['date']) . "',time = '" . $this->db->escape($data['time']) . "',user_id = '" . $this->db->escape($user_id) . "', office_in_time = '" . $this->db->escape($data['office_in_time']) . "'");
 
+
 		$attendance_id = $this->db->getLastId();
 
 		
@@ -29,6 +30,13 @@ class ModelCatalogAttendance extends Model {
 	// public function lateattendance($attendance_id, $data) {
 
 	// 	$sql = "SELECT * FROM " . DB_PREFIX . "attendance_record WHERE 1=1";
+	// 	//$officeintime = "SELECT office_in_time FROM " . DB_PREFIX . "attendance_record WHERE 1=1";
+
+	// 	// if () {
+			
+	// 	// } else {
+			
+	// 	// }
 
 	// 	// if (!empty($data['filter_name'])) {
 	// 	// 	$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
@@ -75,7 +83,6 @@ class ModelCatalogAttendance extends Model {
 
 		return $query->rows;
 	}
-
 	public function getAttendances($data = array()) {
 		// echo "<pre>"; print_r($data);exit;
 		$sql = "SELECT * FROM " . DB_PREFIX . "attendance_record WHERE 1=1";
@@ -83,8 +90,12 @@ class ModelCatalogAttendance extends Model {
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
-		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET status = 'Late' Where office_in_time >'10:00:00'");
-		
+		// $d=mktime(10,00,00);
+		// $time1=date("H:i:s",$d);
+		// if ($time1<'office_in_time'){
+		// 		// $this->db->query("UPDATE INTO " . DB_PREFIX . "attendance_record SET status = 'Late' Where office_in_time >'10:00:00'");
+		// $sql.= " AND status = 'Late'";
+		// }
 		if(!empty($data['start_time']) && !empty($data['end_time'])){
 			$sql .= " AND office_in_time >= '" . $this->db->escape($data['start_time']) . "' AND office_in_time <= '" . $this->db->escape($data['end_time']) . "'";
 		}elseif(!empty($data['start_time'])) {

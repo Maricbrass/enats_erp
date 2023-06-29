@@ -141,11 +141,11 @@ class ControllerCatalogAttendance extends Controller {
 		} else {
 			$start_time = null;
 		}
-		// if (isset($this->request->get['status'])) {
-		// 	$start_time = $this->request->get['status'];
-		// } else {
-		// 	$start_time = null;
-		// }
+		if (isset($this->request->get['status'])) {
+			$status = $this->request->get['status'];
+		} else {
+			$status = null;
+		}
 
 		if (isset($this->request->get['end_time'])) {
 			$end_time = $this->request->get['end_time'];
@@ -206,7 +206,7 @@ class ControllerCatalogAttendance extends Controller {
 			'filter_name'	  => $filter_name,
 			'start_time'  => $start_time,
 			'end_time'  => $end_time,
-			// 'status'	=> $status,
+			'status'	=> $status,	
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -536,18 +536,18 @@ class ControllerCatalogAttendance extends Controller {
 			$this->error['name'] = $this->language->get('error_name');
 		}
 
-		if (isset($this->request->post['date'])){
-			$date = $this->request->post['date'];
-			$user_id = $this->request->post['user_id'];
-			$validate_date = $this->db->query("SELECT user_id FROM `oc_attendance_record` WHERE `date` = '$date' AND `user_id` = '$user_id'")->row;
-			if ($validate_date['user_id'] == $user_id) {
-				$this->error['office_in_time'] = $this->language->get('Already marked');
-			}
-		}
+		// if (isset($this->request->post['date'])){
+		// 	$date = $this->request->post['date'];
+		// 	$user_id = $this->request->post['user_id'];
+		// 	$validate_date = $this->db->query("SELECT user_id FROM `oc_attendance_record` WHERE `date` = '$date' AND `user_id` = '$user_id'")->row;
+		// 	if ($validate_date['user_id'] == $user_id) {
+		// 		$this->error['office_in_time'] = $this->language->get('Already marked');
+		// 	}
+		// }
 
-		if ((utf8_strlen($this->request->post['office_in_time']) < 4) || (utf8_strlen($this->request->post['office_in_time']) > 64)) {
-			$this->error['office_in_time'] = $this->language->get('error_time');
-		}
+		// if ((utf8_strlen($this->request->post['office_in_time']) < 4) || (utf8_strlen($this->request->post['office_in_time']) > 64)) {
+		// 	$this->error['office_in_time'] = $this->language->get('error_time');
+		// }
 
 		return !$this->error;
 	}

@@ -1,3 +1,4 @@
+
 <?php
 class ModelCatalogEmployee extends Model {
 	public function addEmployee($data,$data1) {
