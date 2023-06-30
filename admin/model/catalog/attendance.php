@@ -99,9 +99,9 @@ class ModelCatalogAttendance extends Model {
 		if(!empty($data['start_time']) && !empty($data['end_time'])){
 			$sql .= " AND office_in_time >= '" . $this->db->escape($data['start_time']) . "' AND office_in_time <= '" . $this->db->escape($data['end_time']) . "'";
 		}elseif(!empty($data['start_time'])) {
-			$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['start_time']) . "%'";
+			$sql .= " AND office_in_time >= '" . $this->db->escape($data['start_time']) . "'";
 		}elseif(!empty($data['end_time'])) {
-			$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['end_time']) . "%'";
+			$sql .= " AND office_in_time <= '" . $this->db->escape($data['end_time']) . "'";
 		}
 
 		// echo "<pre>";print_r($sql);exit;

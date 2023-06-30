@@ -333,6 +333,7 @@ class ControllerCatalogEmployee extends Controller {
 			'order'           => $order,
 			'start'           => ($page - 1) * $this->config->get('config_limit_admin'),
 			'limit'           => $this->config->get('config_limit_admin')
+			
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
@@ -1031,24 +1032,42 @@ class ControllerCatalogEmployee extends Controller {
         $csv_data = array(
             array('Name','Father name','Surname','Date of Birth','Number','Email','Address','Date of Joining','Date of Leaving','PAN number','Adhaar number','Bank Details','Emergency Contact')
         );
-        foreach ($employees as $employee){
-	        $csv_data[] = array(
-	            'name'                      => $employee['name'],
-	            'father_name'				=> $employee['father_name'],
-	            'surname'					=> $employee['surname'],
-	            'dob'						=> date("d-m-Y",strtotime($employee['dob'])),
-	            'numbers'					=> $employee['numbers'],
-	            'email'						=> $employee['email'],
-	            'address'					=> $employee['address'],
-	            'doje'						=> date("d-m-Y",strtotime($employee['doje'])),
-	            'dole'						=> date("d-m-Y",strtotime($employee['dole'])),
-	            'pan'						=> $employee['pan'],
-	            'adhaar'					=> $employee['adhaar'],
-	            'bank_details'				=> $employee['bank_details'],
-	            'emergency_contact'			=> $employee['emergency_contact_person_details'] ." | ". $employee['emergency_contact_person_details1'] 
-	        );
-        }
-        // echo "<pre>";print_r($csv_data);exit;
+		$results = $this->model_catalog_employee->getEmployees($filter_data);
+		// echo "<pre>";print_r($results);exit;
+
+		foreach ($results as $result) {
+			$data['employees'][] = array(
+				'employee_id' => $result['employee_id'],
+				'login'       => $result['login'],
+				'name'        => $result['name'],
+				'numbers'     => $result['numbers'],
+				'doje'        => date("d-m-Y",strtotime($result['doje'])),
+				'dole'        => date("d-m-Y",strtotime($result['dole'])),
+				'email'       => $result['email'],
+				'address'     => $result['address'],
+				'dob'         => date("d-m-Y",strtotime($result['dob'])),
+				'edit'        => $this->url->link('catalog/employee/edit', 'token=' . $this->session->data['token'] . '&employee_id=' . $result['employee_id'] . $url, true)
+			);
+		}
+
+        // foreach ($employees as $employee){
+	    //     $csv_data[] = array(
+	    //         'name'                      => $employee['name'],
+	    //         'father_name'				=> $employee['father_name'],
+	    //         'surname'					=> $employee['surname'],
+	    //         'dob'						=> date("d-m-Y",strtotime($employee['dob'])),
+	    //         'numbers'					=> $employee['numbers'],
+	    //         'email'						=> $employee['email'],
+	    //         'address'					=> $employee['address'],
+	    //         'doje'						=> date("d-m-Y",strtotime($employee['doje'])),
+	    //         'dole'						=> date("d-m-Y",strtotime($employee['dole'])),
+	    //         'pan'						=> $employee['pan'],
+	    //         'adhaar'			       		=> $employee['adhaar'],
+	    //         'bank_details'				=> $employee['bank_details'],
+	    //         'emergency_contact'			=> $employee['emergency_contact_person_details'] ." | ". $employee['emergency_contact_person_details1'] 
+	    //     );
+        // }
+        echo "<pre>";print_r($csv_data);exit;
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment; filename="Employee.csv"');
         header('Pragma: no-cache');

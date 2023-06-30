@@ -40,13 +40,13 @@
              </div>
              <div class="col-sm-2">
                <div class="form-group" style="padding: 0;">
-                 <label class="control-label" for="input-time">Start</label>
+                 <label class="control-label" for="input-time">From</label>
                  <input type="time" name="start_time" value="<?php echo $start_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
                </div>
              </div>
              <div class="col-sm-2">
                <div class="form-group" style="padding: 0;">
-                 <label class="control-label" for="input-time">End</label>
+                 <label class="control-label" for="input-time">To</label>
                  <input type="time" name="end_time" value="<?php echo $end_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
                </div>
              </div>
@@ -71,7 +71,7 @@
                    </td>
                    <td class="text-left"><?php echo $column_office_in_time; ?></td>
                    <td class="text-left"><?php echo $column_date_time; ?></td>
-                   <td class="text-left"><?php echo $column_status; ?></td>
+                   <!-- <td class="text-left"><?php echo $column_status; ?></td> -->
                    <td class="text-right"><?php echo $column_action; ?></td>
                  </tr>
                </thead>
@@ -90,7 +90,7 @@
                        <td class="text-left"><?php echo $attendance['name']; ?></td>
                        <td class="text-left"><?php echo $attendance['office_in_time']; ?></td>
                        <td class="text-left"><?php echo $attendance['date'] . ' ' . $attendance['time']; ?></td>
-                       <td class="text-left"><?php echo $attendance['status']?></td>                      
+                       <!-- <td class="text-left"><?php echo $attendance['status']?></td>                       -->
                        <td class="text-right"><a href="<?php echo $attendance['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                      </tr>
                    <?php } ?>

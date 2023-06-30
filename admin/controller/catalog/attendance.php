@@ -206,7 +206,7 @@ class ControllerCatalogAttendance extends Controller {
 			'filter_name'	  => $filter_name,
 			'start_time'  => $start_time,
 			'end_time'  => $end_time,
-			'status'	=> $status,	
+			// 'status'	=> $status,	
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -225,7 +225,7 @@ class ControllerCatalogAttendance extends Controller {
 				'name'            => $result['name'],
 				'office_in_time'  => $result['office_in_time'],
 				'time'       => $result['time'],
-				'status'	=> $result['status'],
+				// 'status'	=> $result['status'],
 				'date'       => date("d-m-Y",strtotime($result['date'])),
 				'edit'            => $this->url->link('catalog/attendance/edit', 'token=' . $this->session->data['token'] . '&attendance_id=' . $result['attendance_id'] . $url, true)
 			);
