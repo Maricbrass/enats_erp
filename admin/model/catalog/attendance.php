@@ -107,6 +107,7 @@ class ModelCatalogAttendance extends Model {
 		// echo "<pre>";print_r($sql);exit;
 
 		$sort_data = array(
+			'name',
 			'date',
 			'sort_order'
 		);
