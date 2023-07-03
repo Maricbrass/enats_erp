@@ -50,8 +50,8 @@
                  <input type="time" name="end_time" value="<?php echo $end_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
                </div>
              </div>
-             <div class="col-sm-4" style="padding-top:22px;padding-left:305px;">
-               <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button><br><br>
+             <div class="col-sm-3" style="padding-top:22px;padding-left:auto;">
+               <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
               <button type="button" id="button-clear" class="btn btn-primary pull-right"><i class="fa fa-trash-o"></i> <?php echo $button_clear; ?></button>
                
               </div>
