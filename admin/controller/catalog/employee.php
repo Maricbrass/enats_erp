@@ -245,10 +245,6 @@ class ControllerCatalogEmployee extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-		if (isset($this->request->get['filter_login'])) {
-			$url .= '&filter_login=' . urlencode(html_entity_decode($this->request->get['filter_login'], ENT_QUOTES, 'UTF-8'));
-		}
-
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -335,6 +331,8 @@ class ControllerCatalogEmployee extends Controller {
 			'limit'           => $this->config->get('config_limit_admin')
 			
 		);
+		$data['fromdate'] = $fromdate;
+		$data['todate'] = $todate;
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
@@ -1024,59 +1022,105 @@ class ControllerCatalogEmployee extends Controller {
 	}
 
 	public function export() {
-        $employee_data = "SELECT * FROM " . DB_PREFIX . "employee WHERE 1=1";
-        $employees = $this->db->query($employee_data)->rows;
-        // echo "<pre>";print_r($employee);exit;
-
-        // $task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) BETWEEN '".$month_start."' AND '".$month_end."'")->rows;
-        $csv_data = array(
-            array('Name','Father name','Surname','Date of Birth','Number','Email','Address','Date of Joining','Date of Leaving','PAN number','Adhaar number','Bank Details','Emergency Contact')
-        );
-		$results = $this->model_catalog_employee->getEmployees($filter_data);
-		// echo "<pre>";print_r($results);exit;
-
-		foreach ($results as $result) {
-			$data['employees'][] = array(
-				'employee_id' => $result['employee_id'],
-				'login'       => $result['login'],
-				'name'        => $result['name'],
-				'numbers'     => $result['numbers'],
-				'doje'        => date("d-m-Y",strtotime($result['doje'])),
-				'dole'        => date("d-m-Y",strtotime($result['dole'])),
-				'email'       => $result['email'],
-				'address'     => $result['address'],
-				'dob'         => date("d-m-Y",strtotime($result['dob'])),
-				'edit'        => $this->url->link('catalog/employee/edit', 'token=' . $this->session->data['token'] . '&employee_id=' . $result['employee_id'] . $url, true)
-			);
+		if (isset($this->request->get['filter_name'])) {
+			$filter_name = $this->request->get['filter_name'];
+		} else {
+			$filter_name = null;
 		}
 
-        // foreach ($employees as $employee){
-	    //     $csv_data[] = array(
-	    //         'name'                      => $employee['name'],
-	    //         'father_name'				=> $employee['father_name'],
-	    //         'surname'					=> $employee['surname'],
-	    //         'dob'						=> date("d-m-Y",strtotime($employee['dob'])),
-	    //         'numbers'					=> $employee['numbers'],
-	    //         'email'						=> $employee['email'],
-	    //         'address'					=> $employee['address'],
-	    //         'doje'						=> date("d-m-Y",strtotime($employee['doje'])),
-	    //         'dole'						=> date("d-m-Y",strtotime($employee['dole'])),
-	    //         'pan'						=> $employee['pan'],
-	    //         'adhaar'			       		=> $employee['adhaar'],
-	    //         'bank_details'				=> $employee['bank_details'],
-	    //         'emergency_contact'			=> $employee['emergency_contact_person_details'] ." | ". $employee['emergency_contact_person_details1'] 
-	    //     );
-        // }
-        echo "<pre>";print_r($csv_data);exit;
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="Employee.csv"');
-        header('Pragma: no-cache');
-        header('Expires: 0');
+		if (isset($this->request->get['start_time'])) {
+			$start_time = $this->request->get['start_time'];
+		} else {
+			$start_time = null;
+		}
+		if (isset($this->request->get['status'])) {
+			$status = $this->request->get['status'];
+		} else {
+			$status = null;
+		}
 
-        $output = fopen('php://output', 'w');
-        foreach ($csv_data as $row) {
-            fputcsv($output, $row);
-        }
-        fclose($output);
-    }
+		if (isset($this->request->get['end_time'])) {
+			$end_time = $this->request->get['end_time'];
+		} else {
+			$end_time = null;
+		}
+
+		if (isset($this->request->get['sort'])) {
+			$sort = $this->request->get['sort'];
+		} else {
+			$sort = 'name';
+		}
+
+		if (isset($this->request->get['order'])) {
+			$order = $this->request->get['order'];
+		} else {
+			$order = 'ASC';
+		}
+
+		if (isset($this->request->get['page'])) {
+			$page = $this->request->get['page'];
+		} else {
+			$page = 1;
+		}
+
+		$url = '';
+
+		if (isset($this->request->get['sort'])) {
+			$url .= '&sort=' . $this->request->get['sort'];
+		}
+
+		if (isset($this->request->get['order'])) {
+			$url .= '&order=' . $this->request->get['order'];
+		}
+
+		if (isset($this->request->get['page'])) {
+			$url .= '&page=' . $this->request->get['page'];
+		}
+
+		$data['breadcrumbs'] = array();
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true)
+		);
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('heading_title'),
+			'href' => $this->url->link('catalog/attendance', 'token=' . $this->session->data['token'] . $url, true)
+		);
+
+		$data['add'] = $this->url->link('catalog/attendance/add', 'token=' . $this->session->data['token'] . $url, true);
+		$data['delete'] = $this->url->link('catalog/attendance/delete', 'token=' . $this->session->data['token'] . $url, true);
+
+		$data['attendances'] = array();
+
+		$filter_data = array(
+			'filter_name' => $filter_name,
+			'start_time'  => $start_time,
+			'end_time'  => $end_time,
+			// 'status'	=> $status,	
+			'sort'  => $sort,
+			'order' => $order,
+			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
+			'limit' => $this->config->get('config_limit_admin')
+		);
+
+
+		$attendance_total = $this->model_catalog_attendance->getTotalattendances($filter_data);
+
+		$results = $this->model_catalog_attendance->getAttendances($filter_data);
+
+		// echo "<pre>";print_r($results);exit;
+		foreach ($results as $result) {
+			$data['attendances'][] = array(
+				'attendance_id'	  => $result['attendance_id'],
+				'name'            => $result['name'],
+				'office_in_time'  => $result['office_in_time'],
+				'time'       => $result['time'],
+				// 'status'	=> $result['status'],
+				'date'       => date("d-m-Y",strtotime($result['date'])),
+				'edit'            => $this->url->link('catalog/attendance/edit', 'token=' . $this->session->data['token'] . '&attendance_id=' . $result['attendance_id'] . $url, true)
+			);
+		}
+	}
 }

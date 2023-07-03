@@ -17,6 +17,7 @@ $_['column_name']        			= 'Name';
 $_['column_office_in_time']         = 'Office in Time';
 $_['column_status']                 = 'Status';
 $_['column_date_time']        		= 'Time and date of Attendance';
+$_['column_status']        		    = 'Status';
 $_['column_action']      			= 'Action';
 
 // Entry

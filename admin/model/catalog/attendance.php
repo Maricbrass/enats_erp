@@ -8,7 +8,7 @@ class ModelCatalogAttendance extends Model {
 			$user_id = $this->session->data['user_id'];
 		}
 		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "',date = '" . $this->db->escape($data['date']) . "',time = '" . $this->db->escape($data['time']) . "',user_id = '" . $this->db->escape($user_id) . "', office_in_time = '" . $this->db->escape($data['office_in_time']) . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "',date = '" . $this->db->escape($data['date']) . "',time = '" . $this->db->escape($data['time']) . "',user_id = '" . $this->db->escape($user_id) . "',office_in_time = '" . $this->db->escape($data['office_in_time']) . "',status = '" . $this->db->escape($data['status']) . "'");
 
 
 		$attendance_id = $this->db->getLastId();
@@ -23,7 +23,7 @@ class ModelCatalogAttendance extends Model {
 	public function editattendance($attendance_id, $data) {
 
 		// echo "<pre>";print_r($this->request->post);exit;
-		$this->db->query("UPDATE " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "', office_in_time = '" . $this->db->escape($data['office_in_time']) . "' WHERE attendance_id = '" . (int)$attendance_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "', office_in_time = '" . $this->db->escape($data['office_in_time']) ."',status = '" . $this->db->escape($data['status']). "' WHERE attendance_id = '" . (int)$attendance_id . "'");
 
 		$this->cache->delete('attendance');
 	}

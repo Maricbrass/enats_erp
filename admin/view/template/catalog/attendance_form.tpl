@@ -73,7 +73,7 @@
                             <label class="col-sm-1 control-label" for="input-time">Time:</label>
                             <div class="col-sm-2">
                                 <?php if (!empty($time)) { ?>
-                                <input type="text" name="time" value="<?php echo $time; ?>" id="input-time" class="form-control"/>
+                                <input type="text" name="time" value="<?php echo  $time; ?>" id="input-time" class="form-control"/>
                                 <?php } else {?>
                                 <input type="text" name="time" value="<?php date_default_timezone_set('Asia/Kolkata'); echo date("g:i A");?>" id="input-time" class="form-control"/>
                                 <?php } ?>
@@ -88,7 +88,18 @@
                                     <input type="date" name="date" value="<?=date("Y-m-d");?>" id="input-date" class="form-control"/>
                                 <?php } ?>
                             </div>
-                        </div>
+                        </div> 
+                        <div class="form-group required">
+                        <label class="col-sm-1 control-label" for="input-date">Status</label>
+                        <div class="col-sm-2">           
+                            <select name="status"class="form-control" id="status">
+                             <option value="Present">Present</option>
+                             <option value="Absent" selected>Absent</option>
+                             <option value="Half Day" >Half Day</option>
+                             <option value="<?php echo $status; ?>" selected hidden="hidden"><?php echo $status; ?></option>
+                            </select>
+                       </div>
+                       </div>
                     </div>
                 </form>
             </div>
