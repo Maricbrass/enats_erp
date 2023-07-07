@@ -45,6 +45,7 @@
           <thead>
             <tr>
               <td class="text-left">Name</td>
+              <td class="text-left">Parameter</td>
               <?php foreach ($attendances_header as $header) { ?>
                 <td class="text-left"><?php echo date('d-m-y', strtotime($header['date'])); ?></td>
               <?php }?>
@@ -55,11 +56,29 @@
               <?php foreach ($username as $user) { ?>
                 <tr>
                   <td class="text-left"><?php echo $user['name']; ?></td>
+                  <td class="text-left">Status</td>
                   <?php foreach ($attendances_header as $header) { ?>
                     <?php $found = false; ?>
                     <?php foreach ($attendances_body as $body) { ?>
                       <?php if ($body['user_id'] == $user['user_id'] && $body['date'] == $header['date']) { ?>
-                        <td class="text-left <?php if (date('H:i', strtotime($body['office_in_time'])) > '10:00:00') echo 'text-danger'; ?>"><?php echo $body['office_in_time']; $found = true; break; ?></td>
+                        <td class="text-left"><?php echo $body['status']; $found = true; ?></td>
+                        <?php } ?>
+                    <?php } ?>
+                    <?php if (!$found) { ?>
+                      <td class="text-left"></td>
+                    <?php } ?>
+                  <?php } ?>
+                </tr>
+
+
+                <tr>
+                  <td class="text-left"><?php echo $user['name']; ?></td>
+                  <td class="text-left">Time</td>
+                  <?php foreach ($attendances_header as $header) { ?>
+                    <?php $found = false; ?>
+                    <?php foreach ($attendances_body as $body) { ?>
+                      <?php if ($body['user_id'] == $user['user_id'] && $body['date'] == $header['date']) { ?>
+                        <td class="text-leftfound <?php if (date('H:i', strtotime($body['office_in_time'])) > '10:00:00') echo 'text-danger'; ?>"><?php echo $body['office_in_time']; $found = true; ?></td>
                       <?php } ?>
                     <?php } ?>
                     <?php if (!$found) { ?>
@@ -72,6 +91,8 @@
               <tr>
                 <td class="text-center" colspan="7">No result</td>
               </tr>
+
+
             <?php } ?>
           </tbody>
         </table>

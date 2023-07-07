@@ -50,6 +50,8 @@
                 <input type="text" name="filter_name" value="<?php echo $filter_name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
               </div>
             </div>
+
+
             <div class="col-sm-4"style="width:200px">
                 <div class="form-group">
                   <label class="control-label" for="input-fromdate">Start Date</label>
@@ -57,16 +59,26 @@
                 </div>
               </div>
               <div class="col-sm-4"style="width:200px">
-                <div class="form-group">
+                <div class="form-group">  
                   <label class="control-label" for="input-todate">End Date</label>
                   <input type="date" name="todate" value="<?php echo $todate; ?>" id="input-todate" class="form-control" />
                  </div>
                 </div>
+                <div class="col-sm-13">
+                 <!-- <label for="leave">For Date of leaving:</label> -->
+                  <select name="test" id="test" onChange="window.location='index.php?route=catalog/employee&token=<?php echo $token; ?>'+'&employee.php?test='+this.value">
+                    <option value="1">Date of Joining</option>
+                    <option value="2" >Date of Leaving</option>
+                    <!-- <option value="mercedes">Mercedes</option>
+                    <option value="audi">Audi</option> -->
+                  </select>
+                </div>
                 <div class="col-sm-13" style="padding: top 50px;padding-left:auto;">
               <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button><br><br><br>
               <button type="button" id="button-clear" class="btn btn-primary pull-right"><i class="fa fa-trash-o"></i> <?php echo $button_clear; ?></button>
+              <!-- <td class="text-right"><a href="<?php echo $employee['jloption']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td> -->
+
             </div>
-        
         </div>
       <?php }?>
         <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-employee">
@@ -163,6 +175,12 @@ $('#button-filter').on('click', function() {
     url += '&filter_name=' + encodeURIComponent(filter_name);
   }
 
+  var jl = $('input[name=\'test\']').val();
+  document.getElementById("leave").value = 1;
+  
+    if (jl) {
+      url += '&test=' + encodeURIComponent(jl);
+    }
   var fromdate = $('input[name=\'fromdate\']').val();
 
     if (fromdate) {

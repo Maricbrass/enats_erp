@@ -39,6 +39,7 @@ $_['text_marketing']                   = 'Marketing';
 $_['text_modification']                = 'Modifications';
 $_['text_manufacturer']                = 'Manufacturers';
 $_['text_task_archive']                = 'Archive task';
+$_['text_leave']                       = 'Leave';
 $_['text_attendance_archive']          = 'Archive attendance';
 $_['text_task']                        = 'Task';
 $_['text_module']                      = 'Modules';

@@ -1,5 +1,5 @@
 <?php
-class ControllerCatalogAttendance extends Controller {
+class Controllercatalogleave extends Controller {
 	private $error = array();
 
 	public function index() {
@@ -18,24 +18,24 @@ class ControllerCatalogAttendance extends Controller {
 
 		$this->load->model('catalog/attendance');
 
-		if ($user_group_id == 11) {
+		if (11 == 11) {
 			$this->getForm();
 		}	else {
-			$this->getList();
+			//$this->getList();
 		}
 	}
 
 	public function add() {
 		// echo "<pre>";print_r($this->request->post);exit;
 		// echo "<pre>";print_r($this->request->post['date']);exit;
-		$this->load->language('catalog/attendance');
+		$this->load->language('catalog/leave');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('catalog/attendance');
+		$this->load->model('catalog/leave');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_catalog_attendance->addattendance($this->request->post);
+			$this->model_catalog_attendance->addhoilday($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -53,7 +53,7 @@ class ControllerCatalogAttendance extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('catalog/attendance', 'token=' . $this->session->data['token'] . $url, true));
+			$this->response->redirect($this->url->link('catalog/leave', 'token=' . $this->session->data['token'] . $url, true));
 		}
 
 		$this->getForm();
@@ -87,7 +87,7 @@ class ControllerCatalogAttendance extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('catalog/attendance', 'token=' . $this->session->data['token'] . $url, true));
+			$this->response->redirect($this->url->link('catalog/leave', 'token=' . $this->session->data['token'] . $url, true));
 		}
 
 		$this->getForm();
@@ -121,10 +121,10 @@ class ControllerCatalogAttendance extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('catalog/attendance', 'token=' . $this->session->data['token'] . $url, true));
+			$this->response->redirect($this->url->link('catalog/leave', 'token=' . $this->session->data['token'] . $url, true));
 		}
 
-		$this->getList();
+		$this->getForm();
 	}
 
 	protected function getList() {
@@ -193,11 +193,11 @@ class ControllerCatalogAttendance extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('catalog/attendance', 'token=' . $this->session->data['token'] . $url, true)
+			'href' => $this->url->link('catalog/leave', 'token=' . $this->session->data['token'] . $url, true)
 		);
 
-		$data['add'] = $this->url->link('catalog/attendance/add', 'token=' . $this->session->data['token'] . $url, true);
-		$data['delete'] = $this->url->link('catalog/attendance/delete', 'token=' . $this->session->data['token'] . $url, true);
+		$data['add'] = $this->url->link('catalog/leave/add', 'token=' . $this->session->data['token'] . $url, true);
+		$data['delete'] = $this->url->link('catalog/leave/delete', 'token=' . $this->session->data['token'] . $url, true);
 
 		$data['attendances'] = array();
 
@@ -226,7 +226,7 @@ class ControllerCatalogAttendance extends Controller {
 				'time'       => $result['time'],
 				'status'	=> $result['status'],
 				'date'       => date("d-m-Y",strtotime($result['date'])),
-				'edit'            => $this->url->link('catalog/attendance/edit', 'token=' . $this->session->data['token'] . '&attendance_id=' . $result['attendance_id'] . $url, true)
+				'edit'            => $this->url->link('catalog/leave/edit', 'token=' . $this->session->data['token'] . '&attendance_id=' . $result['attendance_id'] . $url, true)
 			);
 		}
 
@@ -318,8 +318,12 @@ class ControllerCatalogAttendance extends Controller {
 		if (isset($this->request->get['end_time'])) {
 			$url .= '&end_time=' . $this->request->get['end_time'];
 		}
+		if (isset($this->request->get['status'])) {
+			$url .= '&status=' . $this->request->get['status'];
+		}
 
 		$data['filter_name'] = $filter_name;
+		$data['status'] = $status;
 	    $data['start_time'] = $start_time;
 	    $data['end_time'] = $end_time;
 
@@ -344,6 +348,7 @@ class ControllerCatalogAttendance extends Controller {
 	}
 
 	protected function getForm() {
+		$this->load->language('catalog/leave');
 
 		$data['user_group_id'] = $this->user->user_group_id;
 		// echo "<pre>";print_r($data);exit;
@@ -380,6 +385,11 @@ class ControllerCatalogAttendance extends Controller {
 			$data['error_name'] = $this->error['name'];
 		} else {
 			$data['error_name'] = '';
+		}
+		if (isset($this->error['status'])) {
+			$data['error_status'] = $this->error['status'];
+		} else {
+			$data['error_status'] = '';
 		}
 
 		if (isset($this->error['office_in_time'])) {
@@ -455,13 +465,6 @@ class ControllerCatalogAttendance extends Controller {
 		} else {
 			$data['office_in_time'] = '';
 		}
-		if (isset($this->request->post['status'])) {
-			$data['status'] = $this->request->post['status'];
-		} elseif (!empty($attendance_info)) {
-			$data['status'] = $attendance_info['status'];
-		} else {
-			$data['status'] = '';
-		}
 
 		if (isset($this->request->post['user_id'])) {
 			$data['user_id'] = $this->request->post['user_id'];
@@ -471,6 +474,16 @@ class ControllerCatalogAttendance extends Controller {
 			$data['user_id'] = $user_id;
 		} else {
 			$data['user_id'] = '';
+		}
+
+		if (isset($this->request->post['status'])) {
+			$data['status'] = $this->request->post['status'];
+		} elseif (!empty($attendance_info)) {
+			$data['status'] = $attendance_info['status'];
+		} elseif(!empty($user_id) && ($user_group_id != 1)){
+			$data['status'] = $user_id;
+		} else {
+			$data['status'] = '';
 		}
 
 		if (isset($this->request->post['date'])) {
@@ -493,7 +506,7 @@ class ControllerCatalogAttendance extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('catalog/attendance_form', $data));
+		$this->response->setOutput($this->load->view('catalog/leave_form', $data));
 	}
 
 	public function autocomplete() {
@@ -537,10 +550,23 @@ class ControllerCatalogAttendance extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		
+		// echo "<pre>";print_r($this->request->post['office_in_time']);exit;
 		if ((utf8_strlen($this->request->post['name']) < 2) || (utf8_strlen($this->request->post['name']) > 64)) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
+
+		// if (isset($this->request->post['date'])){
+		// 	$date = $this->request->post['date'];
+		// 	$user_id = $this->request->post['user_id'];
+		// 	$validate_date = $this->db->query("SELECT user_id FROM `oc_attendance_record` WHERE `date` = '$date' AND `user_id` = '$user_id'")->row;
+		// 	if ($validate_date['user_id'] == $user_id) {
+		// 		$this->error['office_in_time'] = $this->language->get('Already marked');
+		// 	}
+		// }
+
+		// if ((utf8_strlen($this->request->post['office_in_time']) < 4) || (utf8_strlen($this->request->post['office_in_time']) > 64)) {
+		// 	$this->error['office_in_time'] = $this->language->get('error_time');
+		// }
 
 		return !$this->error;
 	}

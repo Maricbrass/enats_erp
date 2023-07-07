@@ -17,6 +17,7 @@
       <ul>
         <li><a href="<?php echo $attendance; ?>"><?php echo $text_attendance; ?></a></li>
         <li><a href="<?php echo $task; ?>"><?php echo $text_task; ?></a></li>
+        <li><a href="<?php echo $leave; ?>"><?php echo $text_leave; ?></a></li>
       </ul>
     </li>
   <?php } else { ?>

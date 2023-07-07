@@ -3,7 +3,7 @@
     <div class="page-header">
         <div class="container-fluid">
             <div class="pull-right">
-                <button type="submit" form="form-employee" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <button type="submit" form="form-leave" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary"><i class="fa fa-save"></i></button>
                 <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a>
             </div>
             <h1><?php echo $heading_title; ?></h1>
@@ -49,8 +49,8 @@
                 </div>
                 <?php } ?>
                 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-employee" class="form-horizontal">
-                  <div class="form-group required">
-                    <label class="col-sm-1 control-label" for="input-name"><?php echo $entry_name; ?></label>
+                  <!-- <div class="form-group required"> -->
+                    <!-- <label class="col-sm-1 control-label" for="input-name"><?php echo $entry_name; ?></label>
                         <div class="col-sm-2">
                             <input type="text" name="name" <?php if ($user_group_id != 1) echo "readonly"?> value="<?php echo $name;?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
                             <input type="hidden" name="user_id" value="<?php echo $user_id?>">
@@ -67,8 +67,8 @@
                                 <div class="text-danger"><?php echo $error_time; ?></div>
                             <?php } ?>
                         </div>
-                    </div>
-                    <div style=<?php if ($user_group_id != 1){echo 'display:none;';}?>>
+                    </div> -->
+                    <!-- <div style=<?php if ($user_group_id != 1){echo 'display:none;';}?>>
                         <div class="form-group required">
                             <label class="col-sm-1 control-label" for="input-time">Time:</label>
                             <div class="col-sm-2">
@@ -78,7 +78,7 @@
                                 <input type="text" name="time" value="<?php date_default_timezone_set('Asia/Kolkata'); echo date("g:i A");?>" id="input-time" class="form-control"/>
                                 <?php } ?>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group required">
                             <label class="col-sm-1 control-label" for="input-date">Date:</label>
                             <div class="col-sm-2">
@@ -93,13 +93,10 @@
                         <label class="col-sm-1 control-label" for="input-date">Status</label>
                         <div class="col-sm-2">           
                             <select name="status"class="form-control" id="status">
-                             <option value="Present">Present</option>
-                             <option value="Absent"selected>Absent</option>
-                             <option value="Half Day">Half Day</option>
-                             <option value="<?php echo $status;?>" hidden="hidden"><?php echo $status; ?></option>
-                             
-                                <!-- <option value="Present" select>Present</option> -->
-                             
+                             <option value="Present">Weekly Off</option>
+                             <option value="Absent">Hoilday</option>
+                             <!-- <option value="Half Day" >Half Day</option> -->
+                             <option value="<?php echo $status; ?>" selected hidden="hidden"><?php echo $status; ?></option>
                             </select>
                        </div>
                        </div>

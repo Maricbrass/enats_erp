@@ -198,6 +198,13 @@ class ControllerCatalogEmployee extends Controller {
 		} else {
 			$filter_email = null;
 		}
+		
+		if (isset($this->request->get['jloption'])) {
+			$jloption = $this->request->get['jloption'];
+			//$url .= '&jloption='.$jloption;
+		} else {
+			$jloption = '';
+		}
 
 		if (isset($this->request->get['fromdate'])) {
 			$fromdate = $this->request->get['fromdate'];
@@ -211,6 +218,13 @@ class ControllerCatalogEmployee extends Controller {
 			$url .= '&todate='.$todate;
 		} else {
 			$todate = '';
+		}
+
+		if (isset($this->request->get['test'])) {
+			$test = $this->request->get['test'];
+			$url .= '&test='.$test;
+		} else {
+			$test = '';
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -256,6 +270,9 @@ class ControllerCatalogEmployee extends Controller {
         if (isset($this->request->get['filter_email'])) {
 			$url .= '&filter_email=' . urlencode(html_entity_decode($this->request->get['filter_email'], ENT_QUOTES, 'UTF-8'));
 		}
+		if (isset($this->request->get['jloption'])) {
+			$url .= '&jloption=' . $this->request->get['jloption'];
+		}
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
 		}
@@ -291,8 +308,10 @@ class ControllerCatalogEmployee extends Controller {
 			'filter_name'	  => $filter_name,
 			'filter_numbers'  => $filter_numbers,
 			'filter_email'	  => $filter_email,
+			//'jloption'  => $jloption,    
 			'fromdate'  => $fromdate,    
 			'todate'  => $todate,
+			'test'  => $test,
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -331,6 +350,7 @@ class ControllerCatalogEmployee extends Controller {
 			'limit'           => $this->config->get('config_limit_admin')
 			
 		);
+		$data['test'] = $test;
 		$data['fromdate'] = $fromdate;
 		$data['todate'] = $todate;
 
