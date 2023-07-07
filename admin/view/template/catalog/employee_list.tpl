@@ -64,14 +64,17 @@
                   <input type="date" name="todate" value="<?php echo $todate; ?>" id="input-todate" class="form-control" />
                  </div>
                 </div>
-                <div class="col-sm-13">
-                 <!-- <label for="leave">For Date of leaving:</label> -->
-                  <select name="test" id="test" onChange="window.location='index.php?route=catalog/employee&token=<?php echo $token; ?>'+'&employee.php?test='+this.value">
-                    <option value="1">Date of Joining</option>
-                    <option value="2" >Date of Leaving</option>
+                <div class="col-sm-4"style="width:200px">
+                <div class="form-group">
+                 <label for="leave">Period</label>
+                  <select name="test" id="test" class="dropdown form-control" >
+                    <option value="Date of Joining" class="dropdown-manu form-control" default >Date of Joining</option>
+                    <option value="Date of Leaving" class="dropdown-manu form-control" >Date of Leaving</option>
+                    <option value="<?php echo $test; ?>" selected hidden="hidden"><?php echo $test; ?></option>
                     <!-- <option value="mercedes">Mercedes</option>
                     <option value="audi">Audi</option> -->
                   </select>
+                  </div>
                 </div>
                 <div class="col-sm-13" style="padding: top 50px;padding-left:auto;">
               <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button><br><br><br>
@@ -174,13 +177,7 @@ $('#button-filter').on('click', function() {
   if (filter_name) {
     url += '&filter_name=' + encodeURIComponent(filter_name);
   }
-
-  var jl = $('input[name=\'test\']').val();
-  document.getElementById("leave").value = 1;
-  
-    if (jl) {
-      url += '&test=' + encodeURIComponent(jl);
-    }
+ 
   var fromdate = $('input[name=\'fromdate\']').val();
 
     if (fromdate) {
@@ -192,6 +189,12 @@ $('#button-filter').on('click', function() {
     if (todate) {
       url += '&todate=' + encodeURIComponent(todate);
     }
+
+    var jl = $('select[name=\'test\']').val();
+  
+  if (jl) {
+    url += '&test=' + encodeURIComponent(jl);
+  }
 
  //return filter_sDate;
 
