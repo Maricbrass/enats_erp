@@ -88,7 +88,7 @@
                          <?php } ?>
                        </td>
                        <td class="text-left"><?php echo $attendance['name']; ?></td>
-                       <td class="text-left"><?php echo $attendance['office_in_time']; ?></td>
+                       <td class="text-left"<?php if (date('H:i', strtotime($attendance ['office_in_time'])) > '10:00:00') echo 'text-danger'; ?>><?php echo $attendance['office_in_time']; ?></td>
                        <td class="text-left"><?php echo $attendance['date'] . ' ' . $attendance['time']; ?></td>
                        <td class="text-left"><?php echo $attendance['status']?></td>                      
                        <td class="text-right"><a href="<?php echo $attendance['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
