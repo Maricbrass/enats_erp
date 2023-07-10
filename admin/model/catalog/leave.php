@@ -1,23 +1,23 @@
 <?php
 class ModelCatalogleave extends Model {
-	public function addattendance($data) {
+	public function addholiday($data) {
 
-		if(!empty($data['user_id'])){
-			$user_id = $data['user_id'];
-		} else {
-			$user_id = $this->session->data['user_id'];
-		}
+		// if(!empty($data['user_id'])){
+		// 	$user_id = $data['user_id'];
+		// } else {
+		// 	$user_id = $this->session->data['user_id'];
+		// }
 		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "',date = '" . $this->db->escape($data['date']) . "',time = '" . $this->db->escape($data['time']) . "',user_id = '" . $this->db->escape($user_id) . "',office_in_time = '" . $this->db->escape($data['office_in_time']) . "',status = '" . $this->db->escape($data['status']) . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET date = '" . $this->db->escape($data['date']) . "'status = '" . $this->db->escape($data['status']) . "'");
 
 
-		$attendance_id = $this->db->getLastId();
+		// $attendance_id = $this->db->getLastId();
 
 		
 
-		$this->cache->delete('attendance');
+		// $this->cache->delete('attendance');
 
-		return $attendance_id;
+		// return $attendance_id;
 	}
 
 	public function editattendance($attendance_id, $data) {

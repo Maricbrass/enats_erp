@@ -92,9 +92,9 @@ class ControllerCatalogEmployee extends Controller {
 
 			$this->response->redirect($this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . $url, true));
 		}
-		else{
-			$this->error['dole'] = $this->language->get('error_dole');
-		}
+		// else{
+		// 	$this->error['dole'] = $this->language->get('error_dole');
+		// }
 
 		$this->getForm();
 	}

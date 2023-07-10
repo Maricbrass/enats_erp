@@ -39,10 +39,10 @@ class Controllercatalogreports extends Controller {
 
 				$data['username'] = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date = '$todate' GROUP BY user_id")->rows;
 			}else{
-				$data['attendances_header'] = $this->db->query("SELECT date FROM oc_attendance_record GROUP BY date ORDER BY date DESC LIMIT 30")->rows;
-				$data['attendances_body'] = $this->db->query("SELECT date, user_id, office_in_time,status FROM oc_attendance_record ORDER BY user_id, date, time")->rows;
+				$data['attendances_header'] = $this->db->query("SELECT date,name FROM oc_attendance_record GROUP BY date ORDER BY date DESC LIMIT 30")->rows;
+				$data['attendances_body'] = $this->db->query("SELECT date,name, user_id, office_in_time,status FROM oc_attendance_record ORDER BY user_id, date, time")->rows;
 
-				$data['username'] = $this->db->query("SELECT user_id, name FROM oc_attendance_record GROUP BY user_id")->rows;
+				$data['username'] = $this->db->query("SELECT name FROM oc_attendance_record GROUP BY name")->rows;
 			}
 
 			$data['breadcrumbs'] = array();
