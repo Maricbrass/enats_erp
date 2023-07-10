@@ -127,14 +127,14 @@
               <?php } else { ?>
               <input type="checkbox" name="selected[]" value="<?php echo $employee['employee_id']; ?>" />
               <?php } ?></td>
-              <!-- <td class="text-left"><?php echo $employee['login']; ?></td>
+              <td class="text-left"><?php echo $employee['login']; ?></td>
               <td class="text-left"><?php echo $employee['name']; ?><?php if (date('m-d', strtotime($employee['dob'])) == date('m-d')) {echo "<span> 🎂</span>";}?></td>
                <td class="text-left"><?php echo $employee['dob']; ?></td>
               <td class="text-left"><?php echo $employee['email']; ?></td>
-              <td class="text-left"><?php echo $employee['numbers']; ?></td> -->
+              <td class="text-left"><?php echo $employee['numbers']; ?></td>
               <td class="text-left"><?php echo $employee['date']; ?></td>
               <td class="text-left"><?php echo $employee['status']; ?></td>
-              <!-- <td class="text-left"><?php echo $employee['address']; ?></td> -->
+              <td class="text-left"><?php echo $employee['address']; ?></td>
               <td class="text-right"><a href="<?php echo $employee['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
               </tr>
               <?php } ?>
