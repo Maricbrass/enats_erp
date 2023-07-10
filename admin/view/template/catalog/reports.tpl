@@ -57,11 +57,11 @@
             <?php if ($attendances_body) { ?>
               <?php foreach ($username as $user) { ?>
                 
-                <tr><td></td>
+                <tr>
                 <?php foreach ($attendances_header as $header) { ?>
                 
               <?php }?>
-                  <!-- <td class="text-left"><?php echo $user['name']; ?></td> -->
+                  <td class="text-left" rowspan="2"><?php echo $user['name']; ?></td>
                   <td class="text-left">Status</td>
                   <?php foreach ($attendances_header as $header) { ?>
                     <?php $found = false; ?>
@@ -78,7 +78,7 @@
 
 
                 <tr>
-                  <td class="text-left"><?php echo $user['name']; ?></td>
+                  <!-- <td class="text-left"><?php echo $user['name']; ?></td> -->
                   <td class="text-left">Time</td>
                   <?php foreach ($attendances_header as $header) { ?>
                     <?php $found = false; ?>

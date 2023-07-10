@@ -12,11 +12,11 @@ class Controllercatalogleave extends Controller {
 		}
 		// echo "<pre>";print_r($name_of_user);exit;
 
-		$this->load->language('catalog/attendance');
+		$this->load->language('catalog/leave');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('catalog/attendance');
+		$this->load->model('catalog/leave');
 
 		if (11 == 11) {
 			$this->getForm();
@@ -35,7 +35,7 @@ class Controllercatalogleave extends Controller {
 		$this->load->model('catalog/leave');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_catalog_attendance->addhoilday($this->request->post);
+			$this->model_catalog_leave->addhoilday($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -129,16 +129,16 @@ class Controllercatalogleave extends Controller {
 
 	protected function getList() {
 
-		if (isset($this->request->get['filter_name'])) {
-			$filter_name = $this->request->get['filter_name'];
-		} else {
-			$filter_name = null;
-		}
+		// if (isset($this->request->get['filter_name'])) {
+		// 	$filter_name = $this->request->get['filter_name'];
+		// } else {
+		// 	$filter_name = null;
+		// }
 
-		if (isset($this->request->get['start_time'])) {
-			$start_time = $this->request->get['start_time'];
+		if (isset($this->request->get['date'])) {
+			$date = $this->request->get['date'];
 		} else {
-			$start_time = null;
+			$date = null;
 		}
 		if (isset($this->request->get['status'])) {
 			$status = $this->request->get['status'];
@@ -146,11 +146,11 @@ class Controllercatalogleave extends Controller {
 			$status = null;
 		}
 
-		if (isset($this->request->get['end_time'])) {
-			$end_time = $this->request->get['end_time'];
-		} else {
-			$end_time = null;
-		}
+		// if (isset($this->request->get['end_time'])) {
+		// 	$end_time = $this->request->get['end_time'];
+		// } else {
+		// 	$end_time = null;
+		// }
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -202,9 +202,10 @@ class Controllercatalogleave extends Controller {
 		$data['attendances'] = array();
 
 		$filter_data = array(
-			'filter_name'	  => $filter_name,
-			'start_time'  => $start_time,
-			'end_time'  => $end_time,
+			// 'filter_name'	  => $filter_name,
+			// 'start_time'  => $start_time,
+			// 'end_time'  => $end_time,
+			'date'  => $date,
 			'status'	=> $status,	
 			'sort'  => $sort,
 			'order' => $order,
@@ -322,11 +323,12 @@ class Controllercatalogleave extends Controller {
 			$url .= '&status=' . $this->request->get['status'];
 		}
 
-		$data['filter_name'] = $filter_name;
+		// $data['filter_name'] = $filter_name;
+	    // $data['start_time'] = $start_time;
+	    // $data['end_time'] = $end_time;
+		$data['date'] = $date;
 		$data['status'] = $status;
-	    $data['start_time'] = $start_time;
-	    $data['end_time'] = $end_time;
-
+		
 		$pagination = new Pagination();
         $pagination->total = $attendance_total;
         $pagination->page = $page;
@@ -425,7 +427,7 @@ class Controllercatalogleave extends Controller {
 		);
 
 		if (!isset($this->request->get['attendance_id'])) {
-			$data['action'] = $this->url->link('catalog/attendance/add', 'token=' . $this->session->data['token'] . $url, true);
+			$data['action'] = $this->url->link('catalog/leave/add', 'token=' . $this->session->data['token'] . $url, true);
 		} else {
 			$data['action'] = $this->url->link('catalog/attendance/edit', 'token=' . $this->session->data['token'] . '&attendance_id=' . $this->request->get['attendance_id'] . $url, true);
 		}

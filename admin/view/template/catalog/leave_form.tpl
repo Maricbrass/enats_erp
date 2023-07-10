@@ -103,6 +103,50 @@
                     </div>
                 </form>
             </div>
+            <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-leave">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                  <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+                    <td class="text-left">Date</td>
+                    <td class="text-left">Status</td>
+                  
+                  <td class="text-left"><?php echo $column_action; ?></td>
+                </tr>
+              </thead>
+            <tbody>
+              <?php if ($employees) { ?>
+              <?php foreach ($employees as $employee) {
+              //echo "<pre>";print_r($employee);exit; ?>
+              
+
+              <tr>
+              <td class="text-center"><?php if (in_array($employee['employee_id'], $selected)) { ?>
+              <input type="checkbox" name="selected[]" value="<?php echo $employee['employee_id']; ?>" checked="checked" />
+              <?php } else { ?>
+              <input type="checkbox" name="selected[]" value="<?php echo $employee['employee_id']; ?>" />
+              <?php } ?></td>
+              <!-- <td class="text-left"><?php echo $employee['login']; ?></td>
+              <td class="text-left"><?php echo $employee['name']; ?><?php if (date('m-d', strtotime($employee['dob'])) == date('m-d')) {echo "<span> 🎂</span>";}?></td>
+               <td class="text-left"><?php echo $employee['dob']; ?></td>
+              <td class="text-left"><?php echo $employee['email']; ?></td>
+              <td class="text-left"><?php echo $employee['numbers']; ?></td> -->
+              <td class="text-left"><?php echo $employee['date']; ?></td>
+              <td class="text-left"><?php echo $employee['status']; ?></td>
+              <!-- <td class="text-left"><?php echo $employee['address']; ?></td> -->
+              <td class="text-right"><a href="<?php echo $employee['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+              </tr>
+              <?php } ?>
+              <?php } else { ?>
+              <tr>
+              <td class="text-center" colspan="7"><?php echo $text_no_results; ?></td>
+              </tr>
+              <?php } ?>
+            </tbody>
+          </div>
+        </table>
+        </form>
         </div>
     </div>
 </div>
