@@ -93,9 +93,9 @@
                         <label class="col-sm-1 control-label" for="input-date">Status</label>
                         <div class="col-sm-2">           
                             <select name="status"class="form-control" id="status">
-                             <option value="Present">Present</option>
-                             <option value="Absent"selected>Absent</option>
-                             <option value="Half Day">Half Day</option>
+                             <option value="PRE">Present</option>
+                             <option value="ABS"selected>Absent</option>
+                             <option value="HLF">Half Day</option>
                              <option value="<?php echo $status;?>" hidden="hidden"><?php echo $status; ?></option>
                              
                                 <!-- <option value="Present" select>Present</option> -->
