@@ -224,7 +224,7 @@ class ControllerCatalogEmployee extends Controller {
 			$test = $this->request->get['test'];
 			$url .= '&test='.$test;
 		} else {
-			$test = '';
+			$test = 'Date of Joining';
 		}
 
 		if (isset($this->request->get['sort'])) {

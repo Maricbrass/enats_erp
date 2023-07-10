@@ -220,7 +220,7 @@ class ModelCatalogEmployee extends Model {
 		// );
 
 		$test = $data['test'];
-	if( $test == 1){
+	if( $test == "Date of Leaving"){
 	    if (!empty($data['fromdate']) && !empty($data['todate'])) {
 		   $from_date = date('Y-m-d H:i:s', strtotime($data['fromdate']));
 		   $to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
@@ -234,7 +234,7 @@ class ModelCatalogEmployee extends Model {
 	    	$sql .= " AND DATE(dole) <= '" . $this->db->escape($to_date) . "'";
 	  }
 	}	
-	if( $test == 2){
+	if( $test == "Date of Joining"){
 		
 	    if (!empty($data['fromdate']) && !empty($data['todate'])) {
 			$from_date = date('Y-m-d H:i:s', strtotime($data['fromdate']));
