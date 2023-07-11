@@ -386,6 +386,7 @@ class ControllerCatalogEmployee extends Controller {
 		$data['button_delete'] = $this->language->get('button_delete');
 		$data['button_filter'] = $this->language->get('button_filter');
 		$data['button_clear'] = $this->language->get('button_clear');
+		$data['button_all'] = $this->language->get('button_all');
 
 
 		if (isset($this->error['warning'])) {

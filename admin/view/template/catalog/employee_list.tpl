@@ -31,8 +31,9 @@
     </div>
     <?php } ?>
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-list"></i> <?php echo $text_list; ?></h3>
+      <div class="panel-heading" style='height: 60px'>
+        <h3 class="panel-title"><i class="fa fa-list" style="padding top:50px"></i> <?php echo $text_list; ?></h3>
+        <button type="button" id="button-all" class="btn btn-primary pull-right"><i class="fa fa-o"></i> <?php echo $button_all; ?></button>
       </div>
       <div class="panel-body">
         <?php if ($user_group_id == 1) {?>
@@ -289,8 +290,14 @@ $('input[name=\'filter_email\']').autocomplete({
 });
 --></script>
 <script type="text/javascript">
+$('#button-all').on('click', function() {
+	var url = 'index.php?route=catalog/employee&token=<?php echo $token; ?>&all=1';
+  location = url;
+});
+</script>
+<script type="text/javascript">
 $('#button-clear').on('click', function() {
-	var url = 'index.php?route=catalog/employee&token=<?php echo $token; ?>&all';
+	var url = 'index.php?route=catalog/employee&token=<?php echo $token; ?>';
   location = url;
 });
 </script>

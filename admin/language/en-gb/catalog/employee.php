@@ -1,4 +1,4 @@
-<?php
+ <?php
 // Heading
 $_['heading_title']      = 'Employee';
 
@@ -60,3 +60,5 @@ $_['error_address']      = 'Employee Address must be between 2 and 64 characters
 $_['error_keyword']      = 'SEO URL already in use!';
 $_['error_product']      = 'Warning: This manufacturer cannot be deleted as it is currently assigned to %s products!';
 $_['error_dole']         = 'Warning: Invalid Date of Leaving ENATTS!';
+
+$_['button_all'] = 'All';
