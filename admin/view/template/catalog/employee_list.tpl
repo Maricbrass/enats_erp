@@ -290,7 +290,7 @@ $('input[name=\'filter_email\']').autocomplete({
 --></script>
 <script type="text/javascript">
 $('#button-clear').on('click', function() {
-	var url = 'index.php?route=catalog/employee&token=<?php echo $token; ?>';
+	var url = 'index.php?route=catalog/employee&token=<?php echo $token; ?>&all';
   location = url;
 });
 </script>

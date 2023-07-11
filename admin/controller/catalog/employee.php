@@ -226,7 +226,13 @@ class ControllerCatalogEmployee extends Controller {
 		} else {
 			$test = 'Date of Joining';
 		}
-
+		if (isset($this->request->get['all'])) {
+			$all = $this->request->get['all'];
+			$url .= '&all';
+		} else {
+			$all = '';
+		}
+		
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -312,6 +318,7 @@ class ControllerCatalogEmployee extends Controller {
 			'fromdate'  => $fromdate,    
 			'todate'  => $todate,
 			'test'  => $test,
+			'all'  => $all,
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -351,6 +358,7 @@ class ControllerCatalogEmployee extends Controller {
 			
 		);
 		$data['test'] = $test;
+		$data['all'] = $all;
 		$data['fromdate'] = $fromdate;
 		$data['todate'] = $todate;
 

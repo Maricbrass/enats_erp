@@ -172,14 +172,19 @@ class ModelCatalogEmployee extends Model {
 			$data['user_group_id'] = $user['user_group_id'];
 			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
 		}
-
+		$all = $data['all'];
 		$current_date = date('Y-m-d');
 		// echo "<pre>";print_r($current_date);exit;
 		if ($user_group_id != 1) {
 			$sql = "SELECT * FROM " . DB_PREFIX . "employee";
 			$sql .= " WHERE user_id LIKE '" . $user_id . "%'";
 		} else{
-			$sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE 1=1 ";
+			if($all){
+			$sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE 1=1";
+			}
+			else{
+				$sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE `dole` >= '".$current_date." ' or dole = 0000-00-00";
+			}
 			// `dole` >= '".$current_date." ' or dole = 0000-00-00";
 			// $sql = "SELECT * FROM " . DB_PREFIX . "employee WHERE `dole` = TRUE ";
 		}
