@@ -146,7 +146,7 @@
          success: function(json) {
            response($.map(json, function(item) {
              return {
-               label: item['firstname'],
+               label: item['name'],
                value: item['user_id']
              }
            }));

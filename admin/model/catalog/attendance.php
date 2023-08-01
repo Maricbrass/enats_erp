@@ -67,17 +67,18 @@ class ModelCatalogAttendance extends Model {
 	}
 
 	public function autocompleteatt2($data = array()){
-		$sql = "SELECT * FROM oc_user WHERE user_group_id = 11";
+		$current_date = date('d-m-y');
+		$sql = "SELECT * FROM oc_employee WHERE dole = 00-00-0000 AND dole >= $current_date";
 
 		if (!empty($data['name'])) {
-			$sql .= " AND firstname LIKE '" . $this->db->escape($data['name']) . "%'";
+			$sql .= " AND name LIKE '" . $this->db->escape($data['name']) . "%'";
 		}
 
 		if (!empty($data['filter_name'])) {
-			$sql .= " AND firstname LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+			$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
-		$sql .= " GROUP BY firstname";
+		//$sql .= " GROUP BY name";
 		$query = $this->db->query($sql);
 		// echo "<pre>";print_r($query);exit;
 

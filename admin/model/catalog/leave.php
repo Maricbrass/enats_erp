@@ -1,23 +1,23 @@
 <?php
-class ModelCatalogleave extends Model {
-	public function addholiday($data) {
+class ModelCatalogLeave extends Model {
+	public function addattendance($data) {
 
-		// if(!empty($data['user_id'])){
-		// 	$user_id = $data['user_id'];
-		// } else {
-		// 	$user_id = $this->session->data['user_id'];
-		// }
+		if(!empty($data['user_id'])){
+			$user_id = $data['user_id'];
+		} else {
+			$user_id = $this->session->data['user_id'];
+		}
 		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET date = '" . $this->db->escape($data['date']) . "'status = '" . $this->db->escape($data['status']) . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET date = '" . $this->db->escape($data['date']) . "',status = '" . $this->db->escape($data['status']) . "'");
 
 
-		// $attendance_id = $this->db->getLastId();
+		$attendance_id = $this->db->getLastId();
 
 		
 
-		// $this->cache->delete('attendance');
+		$this->cache->delete('attendance');
 
-		// return $attendance_id;
+		return $attendance_id;
 	}
 
 	public function editattendance($attendance_id, $data) {

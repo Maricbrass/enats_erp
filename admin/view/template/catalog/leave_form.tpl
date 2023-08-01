@@ -48,7 +48,7 @@
                   <button type="button" class="close" data-dismiss="alert">&times;</button>
                 </div>
                 <?php } ?>
-                <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-employee" class="form-horizontal">
+                <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-leave" class="form-horizontal">
                   <!-- <div class="form-group required"> -->
                     <!-- <label class="col-sm-1 control-label" for="input-name"><?php echo $entry_name; ?></label>
                         <div class="col-sm-2">
@@ -93,8 +93,8 @@
                         <label class="col-sm-1 control-label" for="input-date">Status</label>
                         <div class="col-sm-2">           
                             <select name="status"class="form-control" id="status">
-                             <option value="Present">Weekly Off</option>
-                             <option value="Absent">Hoilday</option>
+                             <option value="WKO">Weekly Off</option>
+                             <option value="HLD">Hoilday</option>
                              <!-- <option value="Half Day" >Half Day</option> -->
                              <option value="<?php echo $status; ?>" selected hidden="hidden"><?php echo $status; ?></option>
                             </select>
@@ -103,7 +103,7 @@
                     </div>
                 </form>
             </div>
-            <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-leave">
+            <!-- <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-leave">
           <div class="table-responsive">
             <table class="table table-bordered table-hover">
               <thead>
@@ -116,26 +116,26 @@
                 </tr>
               </thead>
             <tbody>
-              <?php if ($employees) { ?>
-              <?php foreach ($employees as $employee) {
-              //echo "<pre>";print_r($employee);exit; ?>
+              <?php if ($attendances) { ?>
+              <?php foreach ($attendances as $attendance) {
+              //echo "<pre>";print_r($attendance);exit; ?>
               
 
               <tr>
-              <td class="text-center"><?php if (in_array($employee['employee_id'], $selected)) { ?>
-              <input type="checkbox" name="selected[]" value="<?php echo $employee['employee_id']; ?>" checked="checked" />
+              <td class="text-center"><?php if (in_array($attendance['employee_id'], $selected)) { ?>
+              <input type="checkbox" name="selected[]" value="<?php echo $attendance['employee_id']; ?>" checked="checked" />
               <?php } else { ?>
-              <input type="checkbox" name="selected[]" value="<?php echo $employee['employee_id']; ?>" />
+              <input type="checkbox" name="selected[]" value="<?php echo $attendance['employee_id']; ?>" />
               <?php } ?></td>
-              <td class="text-left"><?php echo $employee['login']; ?></td>
-              <td class="text-left"><?php echo $employee['name']; ?><?php if (date('m-d', strtotime($employee['dob'])) == date('m-d')) {echo "<span> 🎂</span>";}?></td>
-               <td class="text-left"><?php echo $employee['dob']; ?></td>
-              <td class="text-left"><?php echo $employee['email']; ?></td>
-              <td class="text-left"><?php echo $employee['numbers']; ?></td>
-              <td class="text-left"><?php echo $employee['date']; ?></td>
-              <td class="text-left"><?php echo $employee['status']; ?></td>
-              <td class="text-left"><?php echo $employee['address']; ?></td>
-              <td class="text-right"><a href="<?php echo $employee['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+              <td class="text-left"><?php echo $attendance['login']; ?></td>
+              <td class="text-left"><?php echo $attendance['name']; ?><?php if (date('m-d', strtotime($attendance['dob'])) == date('m-d')) {echo "<span> 🎂</span>";}?></td>
+              <td class="text-left"><?php echo $attendance['dob']; ?></td>
+              <td class="text-left"><?php echo $attendance['email']; ?></td>
+              <td class="text-left"><?php echo $attendance['numbers']; ?></td> -->
+              <td class="text-left"><?php echo $attendance['date']; ?></td>
+              <td class="text-left"><?php echo $attendance['status']; ?></td>
+              <!-- <td class="text-left"><?php echo $attendance['address']; ?></td>
+              <td class="text-right"><a href="<?php echo $attendance['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
               </tr>
               <?php } ?>
               <?php } else { ?>
@@ -146,7 +146,7 @@
             </tbody>
           </div>
         </table>
-        </form>
+        </form> -->
         </div>
     </div>
 </div>
