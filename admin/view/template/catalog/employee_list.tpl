@@ -33,7 +33,7 @@
     <div class="panel panel-default">
       <div class="panel-heading" style='height: 60px'>
         <h3 class="panel-title"><i class="fa fa-list" style="padding top:50px"></i> <?php echo $text_list; ?></h3>
-        <button type="button" id="button-all" class="btn btn-primary pull-right"><i class="fa fa-o"></i> <?php echo $button_all; ?></button>
+        <button type="button" name="all" id="button-all" class="btn btn-primary pull-right"><i class="fa fa-o"></i> <?php echo $button_all; ?></button>
       </div>
       <div class="panel-body">
         <?php if ($user_group_id == 1) {?>
@@ -179,6 +179,11 @@ $('#button-filter').on('click', function() {
     url += '&filter_name=' + encodeURIComponent(filter_name);
   }
  
+  var all = $('button[name=\'all\']').val();
+
+    if (all) {
+      url += '&all=' + encodeURIComponent(all);
+    }
   var fromdate = $('input[name=\'fromdate\']').val();
 
     if (fromdate) {

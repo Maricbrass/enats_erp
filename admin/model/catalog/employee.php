@@ -21,17 +21,19 @@ class ModelCatalogEmployee extends Model {
 		user_id = '" . $this->db->escape($data['user_id']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',dole = '" . $this->db->escape($data['dole']) ."', pan = '" . $this->db->escape($data['pan_no']) . "',pan_path = '" . $this->db->escape($file_name) . "',adhaar_path = '" . $this->db->escape($file_names) . "',adhaar = '" . $this->db->escape($data['adhaar_no']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',bank_path = '" . $this->db->escape($file_namess) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "'");
 	
 		$employee_id = $this->db->getLastId();
+		//echo "<pre>";print_r($sql);exit;
 
-		if(isset($data['doje']) && isset($data['dole'])){
-			$doje = $data['doje'];
-			$dole = $data['dole'];
-			if($doje > $dole){
-				//$this->session->data['error'] = "Date of Joining must be less than Date of Leaving";
-				$this->error['dole'] = $this->language->get('error_dole');
-			}
-		} else {
+		// if(isset($data['doje']) && isset($data['dole'])){
+		// 	$doje = $data['doje'];
+		// 	$dole = $data['dole'];
+		// 	if($doje > $dole && $dole != 0){
+		// 		$this->error['dole'] = $this->language->get('error_dole');
+		// 		//$this->error['dole'] = $this->language->get('error_dole');
+		// 	}
+		// } else {
+			
 			$this->db->query($sql);;
-		}
+		// }
 
 		
 

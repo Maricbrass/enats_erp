@@ -107,7 +107,7 @@ class ControllerCatalogEmployee extends Controller {
 
 		$this->load->model('catalog/employee');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST')    ) {  //&& $this->validateForm($this->request->get['employee_id'])
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm($this->request->get['employee_id'])    ) {  //
 			$this->model_catalog_employee->editEmployee($this->request->get['employee_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -205,6 +205,12 @@ class ControllerCatalogEmployee extends Controller {
 		} else {
 			$jloption = '';
 		}
+		if (isset($this->request->get['all'])) {
+			$all = $this->request->get['all'];
+			$url .= '&all';
+		} else {
+			$all = '';
+		}
 
 		if (isset($this->request->get['fromdate'])) {
 			$fromdate = $this->request->get['fromdate'];
@@ -226,12 +232,7 @@ class ControllerCatalogEmployee extends Controller {
 		} else {
 			$test = 'Date of Joining';
 		}
-		if (isset($this->request->get['all'])) {
-			$all = $this->request->get['all'];
-			$url .= '&all';
-		} else {
-			$all = '';
-		}
+
 		
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -824,7 +825,7 @@ class ControllerCatalogEmployee extends Controller {
 		if ((utf8_strlen($this->request->post['name']) < 2) || (utf8_strlen($this->request->post['name']) > 64)) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
-		if ((utf8_strlen($this->request->post['dole'])) < (utf8_strlen($this->request->post['doje']))) {
+		if ((utf8_strlen($this->request->post['dole'])) < (utf8_strlen($this->request->post['doje'])) && (utf8_strlen($this->request->post['dole']))) {
 			$this->error['dole'] = $this->language->get('error_dole');
 		}
 
