@@ -24,23 +24,23 @@ class Controllercatalogreports extends Controller {
 	            $status= '';
 	        }
 			if(!empty($fromdate && $todate)){
-				$data['attendances_header'] = $this->db->query("SELECT date FROM oc_attendance_record WHERE date >= '$fromdate' AND date <= '$todate' GROUP BY date")->rows;
-				$data['attendances_body'] = $this->db->query("SELECT date, user_id, office_in_time,status  FROM oc_attendance_record WHERE date >= '$fromdate' AND date <= '$todate' ORDER BY user_id, date, time")->rows;
+				$data['attendances_header'] = $this->db->query("SELECT date,name FROM oc_attendance_record WHERE date >= '$fromdate' AND date <= '$todate' GROUP BY name")->rows;
+				$data['attendances_body'] = $this->db->query("SELECT date, name, office_in_time,status  FROM oc_attendance_record WHERE date >= '$fromdate' AND date <= '$todate' ORDER BY name")->rows;
 
-				$data['username'] = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date >= '$fromdate' AND date <= '$todate' GROUP BY user_id")->rows;
+				$data['username'] = $this->db->query("SELECT  name FROM oc_attendance_record WHERE date >= '$fromdate' AND date <= '$todate'")->rows;
 			}elseif(!empty($fromdate)){
-	        	$data['attendances_header'] = $this->db->query("SELECT date FROM oc_attendance_record WHERE date = '$fromdate' GROUP BY date")->rows;
-				$data['attendances_body'] = $this->db->query("SELECT date, user_id, office_in_time, status FROM oc_attendance_record WHERE date = '$fromdate' ORDER BY user_id, date, time")->rows;
+	        	$data['attendances_header'] = $this->db->query("SELECT date,name FROM oc_attendance_record WHERE date = '$fromdate' GROUP BY date")->rows;
+				$data['attendances_body'] = $this->db->query("SELECT date, name, office_in_time, status FROM oc_attendance_record WHERE date = '$fromdate' ORDER BY date, time")->rows;
 
-				$data['username'] = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date = '$fromdate' GROUP BY user_id")->rows;
+				$data['username'] = $this->db->query("SELECT  name FROM oc_attendance_record WHERE date = '$fromdate' GROUP BY date")->rows;
 			}elseif(!empty($todate)){
 				$data['attendances_header'] = $this->db->query("SELECT date FROM oc_attendance_record WHERE date = '$todate' GROUP BY date")->rows;
-				$data['attendances_body'] = $this->db->query("SELECT date, user_id, office_in_time, status FROM oc_attendance_record WHERE date = '$todate' ORDER BY user_id, date, time")->rows;
+				$data['attendances_body'] = $this->db->query("SELECT date, name, office_in_time, status FROM oc_attendance_record WHERE date = '$todate' ORDER BY date, time")->rows;
 
-				$data['username'] = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date = '$todate' GROUP BY user_id")->rows;
+				$data['username'] = $this->db->query("SELECT name FROM oc_attendance_record WHERE date = '$todate' GROUP BY date")->rows;
 			}else{
 				$data['attendances_header'] = $this->db->query("SELECT date,name FROM oc_attendance_record GROUP BY date ORDER BY date DESC LIMIT 30")->rows;
-				$data['attendances_body'] = $this->db->query("SELECT date,name, user_id, office_in_time,status FROM oc_attendance_record ORDER BY user_id, date, time")->rows;
+				$data['attendances_body'] = $this->db->query("SELECT date,name, office_in_time,status FROM oc_attendance_record ORDER BY date, time")->rows;
 
 				$data['username'] = $this->db->query("SELECT name FROM oc_attendance_record GROUP BY name")->rows;
 			}
@@ -62,6 +62,7 @@ class Controllercatalogreports extends Controller {
 			$data['button_add'] = $this->language->get('button_add');
 			$data['token'] = $this->session->data['token'];
 			$data['button_filter'] = $this->language->get('button_filter');
+			$data['button_clear'] = $this->language->get('button_clear');
 			$data['export'] = $this->url->link('catalog/reports/export', 'token=' . $this->session->data['token'] . $url, true);
 			$data['archive'] = $this->url->link('catalog/reports/archive', 'token=' . $this->session->data['token'] . $url, true);
 			$data['fromdate'] = $fromdate;

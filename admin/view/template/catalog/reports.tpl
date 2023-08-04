@@ -36,6 +36,7 @@
               </div>
               <div class="col-sm-3" style="text-align: start;">
                 <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+                <button type="button" id="button-clear" class="btn btn-primary pull-right"><i class="fa fa-trash-o"></i> <?php echo $button_clear; ?></button>
               </div>
           </div>
         </div>
@@ -122,6 +123,12 @@ $('#button-filter').on('click', function() {
     url += '&todate=' + encodeURIComponent(todate);
   }
 
+  location = url;
+});
+</script>
+<script type="text/javascript">
+$('#button-clear').on('click', function() {
+	var url = 'index.php?route=catalog/reports&token=<?php echo $token; ?>';
   location = url;
 });
 </script>

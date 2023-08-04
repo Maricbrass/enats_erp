@@ -7,17 +7,31 @@ class ModelCatalogAttendance extends Model {
 		} else {
 			$user_id = $this->session->data['user_id'];
 		}
+		$employee_name = $_POST['name'];
+		$sql = "SELECT employee_id FROM oc_employee WHERE name = '$employee_name'";
+		$query = $this->db->query($sql);
+		$emp_id = $query->row['employee_id'];
 		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "',date = '" . $this->db->escape($data['date']) . "',time = '" . $this->db->escape($data['time']) . "',user_id = '" . $this->db->escape($user_id) . "',office_in_time = '" . $this->db->escape($data['office_in_time']) . "',status = '" . $this->db->escape($data['status']) . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET employee_id = '$emp_id',name = '" . $this->db->escape($data['name']) . "',date = '" . $this->db->escape($data['date']) . "',time = '" . $this->db->escape($data['time']) . "',user_id = '" . $this->db->escape($user_id) . "',office_in_time = '" . $this->db->escape($data['office_in_time']) . "',status = '" . $this->db->escape($data['status']) . "'");
 
 
 		$attendance_id = $this->db->getLastId();
 
-		
+		//$query = $this->db->query($sql);
+		//echo "<pre>";print_r($query);
 
+		//echo "<pre>";print_r($this->request->post);exit;
 		$this->cache->delete('attendance');
 
 		return $attendance_id;
+	}
+
+	public function empid($data) {
+		$employee_name = $_POST['name'];
+		$sql = "SELECT employee_id FROM oc_employee WHERE name = '$employee_name'";
+		$query = $this->db->query($sql);
+		echo "<pre>";print_r($query);exit;
+		return $query->rows;
 	}
 
 	public function editattendance($attendance_id, $data) {

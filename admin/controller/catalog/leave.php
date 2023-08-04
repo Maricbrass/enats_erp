@@ -145,6 +145,16 @@ class ControllerCatalogLeave extends Controller {
 		} else {
 			$status = null;
 		}
+		if (isset($this->request->get['employee_id'])) {
+			$employee_id = $this->request->get['employee_id'];
+		} else {
+			$employee_id = null;
+		}
+		if (isset($this->request->get['name'])) {
+			$name = $this->request->get['name'];
+		} else {
+			$name = null;
+		}
 
 		// if (isset($this->request->get['end_time'])) {
 		// 	$end_time = $this->request->get['end_time'];
@@ -211,17 +221,21 @@ class ControllerCatalogLeave extends Controller {
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
 			'limit' => $this->config->get('config_limit_admin')
 		);
+		$filter_data1 = array(
+			'employee_id'	  => $employee_id,
+			'name'	  => $name
+		);
 
 
 		$attendance_total = $this->model_catalog_attendance->getTotalattendances($filter_data);
 
 		$results = $this->model_catalog_attendance->getAttendances($filter_data);
-
+		$result1 = $this->model_catalog_attendance->getemployees($filter_data1);
 		// echo "<pre>";print_r($results);exit;
 		foreach ($results as $result) {
 			$data['attendances'][] = array(
 				'attendance_id'	  => $result['attendance_id'],
-				// 'name'            => $result['name'],
+				 'name'            => $result['name'],
 				// 'office_in_time'  => $result['office_in_time'],
 				// 'time'       => $result['time'],
 				'status'	=> $result['status'],
@@ -437,16 +451,16 @@ class ControllerCatalogLeave extends Controller {
 			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
 		}
 
-		// echo "<pre>";print_r($user_group_id);exit;
-		// if (isset($this->request->post['name'])) {
-		// 	$data['name'] = $this->request->post['name'];
-		// } elseif (!empty($attendance_info)) {
-		// 	$data['name'] = $attendance_info['name'];
-		// }elseif(!empty($name_of_user) && ($user_group_id != 1)){
-		// 	$data['name'] = $name_of_user;
-		// } else {
-		// 	$data['name'] = '';
-		// }
+		//	echo "<pre>";print_r($user_group_id);exit;
+		if (isset($this->request->post['name'])) {
+			$data['name'] = $this->request->post['name'];
+		} elseif (!empty($attendance_info)) {
+			$data['name'] = $attendance_info['name'];
+		}elseif(!empty($name_of_user) && ($user_group_id != 1)){
+			$data['name'] = $name_of_user;
+		} else {
+			$data['name'] = '';
+		}
 
 		// if (isset($this->request->post['office_in_time'])) {
 		// 	$data['office_in_time'] = $this->request->post['office_in_time'];

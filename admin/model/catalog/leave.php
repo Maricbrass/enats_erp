@@ -7,17 +7,48 @@ class ModelCatalogLeave extends Model {
 		} else {
 			$user_id = $this->session->data['user_id'];
 		}
+	 // $name=$this->db->query("select name from oc_employee where 1=1");
+	  
+	  $sql = "SELECT employee_id,name FROM oc_employee";
+		$query = $this->db->query($sql);
+		$emp_id = $query->rows;
+		// $sql1 = "SELECT name from oc_employee where employee_id = $emp_id";
+		// $query1 = $this->db->query($sql1);
+		// $name = $query1->rows['name'];
+		//$employee_name = $_POST['name'];
+		//$sql_select_employee_id = "SELECT id FROM employee WHERE name = '$employee_name'";
+
+		$n = $query->num_rows;
+		$row = $query->row;
+		$employee_id_row = $row['employee_id'];
+		$employee_name = $row['name'];
 		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET date = '" . $this->db->escape($data['date']) . "',status = '" . $this->db->escape($data['status']) . "'");
+		$rows = $query->rows;
+		
+		for($i=0;$i<$n;$i++)
+		{
+			$employee_id = $rows[$i]['employee_id'];
+			$employee_name = $rows[$i]['name'];
+			echo $employee_id;
+			echo $employee_name;
+		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET employee_id = $employee_id,name = $employee_name, date = '" . $this->db->escape($data['date']) . "',status = '" . $this->db->escape($data['status']) ."'");
+		}
+		//employee_id = $employee_id,name = $employee_name,
 
 
-		$attendance_id = $this->db->getLastId();
+	//	$query = "INSERT INTO oc_attendance_record (name,user_id, date, status) VALUES (:name, :user_id, :date, :status)";
 
+
+	//	$attendance_id = $this->db->getLastId();
+		//$query = $this->db->query($sql);
+		//echo "<pre>";print_r($query);
+
+		//echo "<pre>";print_r($this->request->post);exit;
 		
 
 		$this->cache->delete('attendance');
 
-		return $attendance_id;
+		//return $attendance_id;
 	}
 
 	public function editattendance($attendance_id, $data) {
@@ -140,6 +171,10 @@ class ModelCatalogLeave extends Model {
 		// echo "<pre>";print_r($query->rows);exit;
 		return $query->rows;
     }
+
+	public function getemployees() {
+
+	}
 
 	public function getAttandanceStores($attendance_id) {
 		$attendance = array();
