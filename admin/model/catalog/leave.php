@@ -29,26 +29,28 @@ class ModelCatalogLeave extends Model {
 		{
 			$employee_id = $rows[$i]['employee_id'];
 			$employee_name = $rows[$i]['name'];
-			echo $employee_id;
-			echo $employee_name;
-		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET employee_id = $employee_id,name = $employee_name, date = '" . $this->db->escape($data['date']) . "',status = '" . $this->db->escape($data['status']) ."'");
-		}
+			//echo $employee_id;
+			//echo $employee_name;
+		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET employee_id = '$employee_id',name = '$employee_name', date = '" . $this->db->escape($data['date']) . "',status = '" . $this->db->escape($data['status']) ."';");
+		
+		//echo "<pre>";print_r("INSERT into " . DB_PREFIX . "attendance_record SET employee_id = '$employee_id',name = '$employee_name', date = '" . $this->db->escape($data['date']) . "',status = '" . $this->db->escape($data['status']) ."';");
+	}
 		//employee_id = $employee_id,name = $employee_name,
 
 
 	//	$query = "INSERT INTO oc_attendance_record (name,user_id, date, status) VALUES (:name, :user_id, :date, :status)";
 
 
-	//	$attendance_id = $this->db->getLastId();
+	$attendance_id = $this->db->getLastId();
 		//$query = $this->db->query($sql);
-		//echo "<pre>";print_r($query);
-
+		//echo "<pre>";print_r($m);
+		//echo "<pre>";print_r($m);
 		//echo "<pre>";print_r($this->request->post);exit;
 		
 
 		$this->cache->delete('attendance');
 
-		//return $attendance_id;
+		return $attendance_id;
 	}
 
 	public function editattendance($attendance_id, $data) {
