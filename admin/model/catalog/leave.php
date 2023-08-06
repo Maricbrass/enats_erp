@@ -9,7 +9,7 @@ class ModelCatalogLeave extends Model {
 		}
 	 // $name=$this->db->query("select name from oc_employee where 1=1");
 	  
-	  $sql = "SELECT employee_id,name FROM oc_employee";
+	  $sql = "SELECT employee_id,name FROM oc_employee where dole = '0000-00-00' or dole > CURDATE()";
 		$query = $this->db->query($sql);
 		$emp_id = $query->rows;
 		// $sql1 = "SELECT name from oc_employee where employee_id = $emp_id";

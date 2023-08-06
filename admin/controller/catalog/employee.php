@@ -140,7 +140,7 @@ class ControllerCatalogEmployee extends Controller {
 
 		$this->load->model('catalog/employee');
 
-		if (isset($this->request->post['selected']) && $this->validateDelete()) {
+		if (isset($this->request->post['selected']) ) {
 			foreach ($this->request->post['selected'] as $employee_id) {
 				$this->model_catalog_employee->deleteEmployee($employee_id);
 			}
