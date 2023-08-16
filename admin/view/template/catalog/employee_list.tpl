@@ -167,7 +167,8 @@ $('#button-filter').on('click', function() {
   // console.log(url);
 
   var url = 'index.php?route=catalog/employee&token=<?php echo $token; ?>';
-
+  var current_url = window.location.href;
+  console.log(current_url);
   var filter_login = $('input[name=\'filter_login\']').val();
 
   if (filter_login) {
@@ -179,10 +180,10 @@ $('#button-filter').on('click', function() {
     url += '&filter_name=' + encodeURIComponent(filter_name);
   }
  
-  var all = $('button[name=\'all\']').val();
+//  var all = $('button[name=\'all\']').val();
 
-    if (all) {
-      url += '&all=' + encodeURIComponent(all);
+    if (current_url == 'http://localhost/enats_erp/admin/index.php?route=catalog/employee&token=<?php echo $token; ?>&all=1') {
+       url += '&all=' + 1;
     }
   var fromdate = $('input[name=\'fromdate\']').val();
 

@@ -104,8 +104,9 @@ class ModelCatalogEmployee extends Model {
 		return $query->row;
 	}
 
-	public function autocompleteemp($data = array()){
-		$sql = "SELECT * FROM oc_employee WHERE 1=1";
+	public function autocomplete($data = array()){
+		$current_date = date('Y-m-d');
+		$sql = "SELECT * FROM oc_employee WHERE `dole` >= '".$current_date." ' or dole = 0000-00-00";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
@@ -209,23 +210,6 @@ class ModelCatalogEmployee extends Model {
 			$sql .= " AND email LIKE '" . $this->db->escape($data['filter_email']) . "%'";
 		}
 
-		// if (!empty($data['fromdate']) && !empty($data['todate'])) {
-		// 	$from_date = date('Y-m-d H:i:s', strtotime($data['fromdate']));
-		// 	$to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
-		// 	$sql .= " AND DATE(doje) >= '" . $this->db->escape($from_date) . "' AND DATE(dole) <= '" . $this->db->escape($to_date) . "'";
-		//   }elseif(!empty($data['fromdate'])){
-		// 	$from_date = date('Y-m-d', strtotime($data['fromdate']));
-		// 	$sql .= " AND DATE(doje) >=  '" . $this->db->escape($from_date) . "'";
-		// 	// echo "<pre>";print_r($sql);exit;
-		//   }elseif(!empty($data['todate'])){
-		// 	$to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
-		// 	$sql .= " AND DATE(dole) <= '" . $this->db->escape($to_date) . "'";
-		//   }
-
-		// $sort_data = array(
-		// 	'sort_order'
-		// );
-
 		$test = $data['test'];
 	if( $test == "Date of Leaving"){
 	    if (!empty($data['fromdate']) && !empty($data['todate'])) {
@@ -309,18 +293,5 @@ class ModelCatalogEmployee extends Model {
 
 		return $query->row['total'];
 	}
-	//function for get the url of the page
-	// public function geturl(){
-	// 	$url = $_SERVER['REQUEST_URI'];
-	// 	// echo "<pre>";print_r($url);exit;
-	// 	$parts = parse_url($url);
-	// 	// echo "<pre>";print_r($parts);exit;
-	// 	// echo "<pre>";print_r($parts['query']);exit;
-	// 	parse_str($parts['query'], $query);
-	// 	// echo "<pre>";print_r($query);exit;
-	// 	// echo "<pre>";print_r($query['route']);exit;
-	// 	$route = $query['route'];
-	// 	// echo "<pre>";print_r($route);exit;
-	// 	return $route;
-	// }
+
 }
